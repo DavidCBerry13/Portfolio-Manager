@@ -1,0 +1,35 @@
+
+Trade Date:
+
+<select #tradeDateSelect (change)="onTradeDateChanged(tradeDateSelect.selectedOptions[0].value)">
+  <option *ngFor="let tradeDate of tradeDates" [value]="tradeDate.tradeDate">{{tradeDate.tradeDate}}</option>
+</select>
+
+
+<table class="table table-bordered table-hover table-sm">
+    <thead>
+    <tr>
+      <th>Ticker</th>
+      <th>Name</th>
+      <th>Price</th>
+      <th>Change</th>
+      <th>Details</th>
+    </tr>
+  </thead>
+
+    <tr *ngFor="let security of securities">
+        <td>{{security.ticker}}</td>
+        <td>{{security.name}}</td>
+        <td>{{security.closingPrice | currency }}</td>
+        <td>{{security.change | currency }}</td>
+        <td>
+          <a class="btn btn-primary" routerLink="/securities/{{security.ticker}}" role="button">Details</a>
+        </td>
+      </tr>
+
+
+</table>
+
+
+
+
