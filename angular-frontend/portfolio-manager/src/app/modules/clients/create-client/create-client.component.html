@@ -1,0 +1,143 @@
+
+<div class="row justify-content-center">
+
+  <div class="col-sm-6">
+  
+  
+  
+  <h2>Create New Client</h2>
+  <form #createClientForm="ngForm">
+  
+      <div class="form-group">
+          <label for="firstName" class="col-sm-4 col-form-label font-weight-bold">First Name</label>
+          <div clas="col-sm-8">
+              <input id="firstName" name="firstName" type="text" 
+                  class="form-control" 
+                  placeholder="First Name" 
+                  required pattern="^[\w ]{2,30}$" 
+                  [(ngModel)]="client.firstName" 
+                  #firstNameField="ngModel" />
+          </div>
+          <div [hidden]="firstNameField.valid || firstNameField.untouched" class="text-danger">
+              First name is required and must only contain letters and spaces
+          </div>
+      </div>
+
+      <div class="form-group">
+          <label for="lastName" class="col-sm-4 col-form-label font-weight-bold">Last Name</label>
+          <div clas="col-sm-8">
+              <input id="lastName" name="lastName" type="text" 
+                  class="form-control" 
+                  placeholder="Last Name" 
+                  required 
+                  pattrn="^[\w ]{2,30}$" 
+                  [(ngModel)]="client.lastName"
+                  #lastNameField="ngModel" />
+          </div>
+          <div [hidden]="lastNameField.valid || lastNameField.untouched" class="text-danger">
+                Last name is required and must only contain letters and spaces
+            </div>
+      </div>
+
+      <div class="form-group">
+          <label for="streetAddress" class="col-sm-4 col-form-label font-weight-bold">Street Address</label>
+          <div clas="col-sm-8">
+              <input id="streetAddress" name="streetAddress" type="text" 
+                  class="form-control" 
+                  placeholder="Street Address" 
+                  required 
+                  [(ngModel)]="client.streetAddress"
+                  #streetAddressField="ngModel" />
+          </div>
+          <div [hidden]="streetAddressField.valid || streetAddressField.untouched" class="text-danger">
+                Street address is required and must contain only numbers, letters, spaces and the # or dash (-) signs
+          </div>
+      </div>
+
+      <div class="form-group">
+        <label for="city" class="col-sm-4 col-form-label font-weight-bold">City</label>
+        <div clas="col-sm-8">
+            <input id="city" name="city" type="text" 
+                class="form-control form-control.is-valid" 
+                placeholder="City" 
+                required 
+                pattern="^[\w]{2,30}$" 
+                [(ngModel)]="client.city"
+                #cityField="ngModel"/>
+        </div>
+        <div [hidden]="cityField.valid || cityField.untouched" class="text-danger">
+                City names must contain only letters and spaces
+         </div>
+    </div>
+      <div class="form-group">
+          <label for="state" class="col-sm-4 col-form-label font-weight-bold">State</label>
+          <div clas="col-sm-8">
+              <select id="state" name="state" 
+                  class="form-control"
+                  placeholder="State"                   
+                  required 
+                  [(ngModel)]="client.state"
+                  #stateField="ngModel">                  
+                    <option *ngFor="let state of states" value="state.stateCode">{{state.stateName}}</option>
+            </select>
+          </div>
+          <div [hidden]="stateField.valid || stateField.untouched" class="text-danger">
+                A state must be selected
+         </div>          
+      </div>
+      <div class="form-group">
+          <label for="zipCode" class="col-sm-4 col-form-label font-weight-bold">Zip Code</label>
+          <div clas="col-sm-8">
+              <input id="zipCode" name="zipCode" type="text" 
+                  class="form-control" 
+                  placeholder="Zip Code" 
+                  required 
+                  pattern="^[\d]{5}$" 
+                  [(ngModel)]="client.zipCode"
+                  #zipCodeField="ngModel"/>
+          </div>
+          <div [hidden]="zipCodeField.valid || zipCodeField.untouched" class="text-danger">
+                A five digit zip code must be entered
+         </div>
+      </div>
+      <div class="form-group">
+        <label for="phone" class="col-sm-4 col-form-label font-weight-bold">Phone</label>
+        <div clas="col-sm-8">
+            <input id="phone" name="phone" type="tel" 
+                class="form-control" 
+                placeholder="Phone Number" 
+                required 
+                pattern="^[\d]{3}-[\d]{3}-[\d]{4}$" 
+                [(ngModel)]="client.phone"
+                #phoneField="ngModel"/>
+        </div>
+        <div [hidden]="phoneField.valid || phoneField.untouched" class="text-danger">
+                A phone number must be entered in the format of XXX-YYY-ZZZZ
+         </div>
+    </div>
+    <div class="form-group">
+      <label for="email" class="col-sm-4 col-form-label font-weight-bold">Email</label>
+      <div clas="col-sm-8">
+          <input id="email" name="email" type="email" 
+              class="form-control" 
+              placeholder="Email" 
+              required
+              [(ngModel)]="client.email"
+              #emailField="ngModel"/>
+      </div>
+      <div [hidden]="emailField.valid || emailField.untouched" class="text-danger">
+            A valid email address must be entered
+     </div>
+  </div>
+
+  
+      <button class="btn btn-primary">Create</button>
+  
+      <br/>
+
+      {{ client | json }}
+  </form>
+  
+  </div>
+  </div>
+  
