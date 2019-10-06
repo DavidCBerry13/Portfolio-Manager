@@ -1,4 +1,4 @@
-export interface CreateClient {
+export class CreateClient {
 
     firstName: string;
     lastName: string;

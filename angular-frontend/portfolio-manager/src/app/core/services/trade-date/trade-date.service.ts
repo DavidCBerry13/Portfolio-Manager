@@ -15,7 +15,7 @@ export class TradeDateService {
 
   constructor(private http: HttpClient) { }
 
-  getTradeDates (): Observable<TradeDate[]> {
+  getTradeDates(): Observable<TradeDate[]> {
     return this.http.get<TradeDate[]>(environment.stockDataUrl + this.TRADE_DATES_ENDPOINT)
       .pipe(
         tap(_ => this.log('fetched trade dates')),

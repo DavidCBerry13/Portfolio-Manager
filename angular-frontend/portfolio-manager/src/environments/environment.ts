@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   stockDataUrl: 'http://localhost/SecuritiesApi',
-  brokerageAccountUrl: 'http://localhost/BrokerageAccountApi'
+  brokerageAccountsUrl: 'http://localhost/BrokerageAccountsApi'
 };
 
 /*
