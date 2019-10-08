@@ -6,20 +6,20 @@ import { TradeDate } from 'src/app/core/services/trade-date/trade-date';
 import * as _ from 'lodash';
 
 @Component({
-  selector: 'app-index',
-  templateUrl: './index.component.html',
-  styleUrls: ['./index.component.css']
+  selector: 'app-securities-list',
+  templateUrl: './securities-list.component.html',
+  styleUrls: ['./securities-list.component.css']
 })
-export class IndexComponent implements OnInit {
+export class SecuritiesListComponent implements OnInit {
 
   tradeDates: TradeDate[];
   securities: SecurityPrice[];
 
-
   constructor(private tradeDateService: TradeDateService, private securitiesService: SecurityPriceService) { }
 
-  ngOnInit() {
 
+
+  ngOnInit() {
     this.tradeDateService.getTradeDates()
         .subscribe(tradeDates => this.tradeDates = _.orderBy(tradeDates, ['tradeDate'], ['desc']) );
 
@@ -27,10 +27,8 @@ export class IndexComponent implements OnInit {
         .subscribe(securities => this.securities = securities);
   }
 
-
-
   onTradeDateChanged(newTradeDate: string) {
-      console.log('The new trade date is ' + newTradeDate);
-  }
+    console.log('The new trade date is ' + newTradeDate);
+}
 
 }

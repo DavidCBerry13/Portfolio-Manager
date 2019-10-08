@@ -3,9 +3,10 @@ import { CommonModule } from '@angular/common';
 import { SecuritiesRoutingModule } from './securities-routing.module';
 import { IndexComponent } from './pages/index/index.component';
 import { RouterModule } from '@angular/router';
+import { SecuritiesListComponent } from './securities-list/securities-list.component';
 
 @NgModule({
-  declarations: [IndexComponent],
+  declarations: [IndexComponent, SecuritiesListComponent],
   imports: [
     CommonModule,
     SecuritiesRoutingModule,
