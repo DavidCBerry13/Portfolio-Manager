@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [dbo].[AccountTrades]
 (
-	AccountTradeId      INT            NOT NULL,
+	AccountTradeId      INT IDENTITY   NOT NULL,
 	TradeDate           DATE           NOT NULL,
 	AccountNumber       VARCHAR(12)    NOT NULL,
 	Ticker              VARCHAR(5)     NOT NULL,
