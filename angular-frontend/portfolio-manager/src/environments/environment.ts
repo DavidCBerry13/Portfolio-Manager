@@ -5,7 +5,12 @@
 export const environment = {
   production: false,
   stockDataUrl: 'http://localhost/SecuritiesApi',
-  brokerageAccountsUrl: 'http://localhost/BrokerageAccountsApi'
+  brokerageAccountsUrl: 'http://localhost/BrokerageAccountsApi',
+
+  cacheUrls: [
+    { url: '/api/TradeDates', cacheTimeSeconds: 3600},
+    { url: 'api/securities', cacheTimeSeconds: 60 }
+  ]
 };
 
 /*
