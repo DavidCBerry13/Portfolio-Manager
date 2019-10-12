@@ -1,6 +1,6 @@
 ﻿CREATE TABLE dbo.Dividends
 (
-	DividendId         INT            NOT NULL,
+	DividendId         INT IDENTITY   NOT NULL,
 	Ticker             VARCHAR(5)     NOT NULL,
 	DeclaredDate       DATE           NOT NULL,
 	ExDividendDate     DATE           NOT NULL,
