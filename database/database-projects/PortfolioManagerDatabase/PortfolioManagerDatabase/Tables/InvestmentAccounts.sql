@@ -5,7 +5,7 @@
 	AccountName       VARCHAR(40)   NOT NULL,
 	AccountStatus     VARCHAR(1)    NOT NULL,
 	OpenDate          DATE          NOT NULL,
-	CloseDate         DATE          NOT NULL,
+	CloseDate         DATE          NULL,
 	CONSTRAINT PK_InvestmentAccounts 
 	    PRIMARY KEY (AccountNumber),
 	CONSTRAINT FK_InvestmentAccounts_AccountNumber
