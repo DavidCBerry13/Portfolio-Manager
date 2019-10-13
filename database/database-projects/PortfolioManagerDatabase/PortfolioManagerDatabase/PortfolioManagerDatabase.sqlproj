@@ -76,8 +76,12 @@
     <Build Include="Tables\AccountHoldings.sql" />
     <Build Include="Tables\AccountTrades.sql" />
     <None Include="ReferenceData\SecurityTypesData.sql" />
+    <Build Include="Tables\AccountStatusCodes.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="InsertReferenceData.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ReferenceData\AccountStatusCodeData.sql" />
   </ItemGroup>
 </Project>

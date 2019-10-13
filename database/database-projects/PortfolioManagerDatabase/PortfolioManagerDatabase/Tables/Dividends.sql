@@ -6,7 +6,7 @@
 	ExDividendDate     DATE           NOT NULL,
 	RecordDate         DATE           NOT NULL,
 	PaymentDate        DATE           NOT NULL,
-	DividendType       VARCHAR(20)    NOT NULL,
+	DividendType       VARCHAR(20)    NULL,
 	DividendPerShare   DECIMAL(12,4)  NOT NULL,
 	CONSTRAINT PK_Dividends
 	    PRIMARY KEY (DividendId),

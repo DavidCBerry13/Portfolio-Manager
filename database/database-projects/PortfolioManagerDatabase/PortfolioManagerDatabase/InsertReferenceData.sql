@@ -12,3 +12,4 @@ Post-Deployment Script Template
 :r ReferenceData\StatesData.sql
 :r ReferenceData\SecurityTypesData.sql
 :r ReferenceData\CashFlowTypesData.sql
+:r ReferenceData\AccountStatusCodeData.sql
