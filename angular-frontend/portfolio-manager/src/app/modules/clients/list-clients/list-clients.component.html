@@ -1,3 +1,26 @@
-<p>
-  list-clients works!
-</p>
+<h2>
+  Clients
+</h2>
+<table class="table table-bordered table-hover table-sm">
+  <thead>
+  <tr>
+    <th>Name</th>
+    <th>Address</th>
+    <th>Active Accounts</th>
+    <th>Assets</th>
+    <th></th>
+  </tr>
+</thead>
+
+  <tr *ngFor="let client of clients">
+      <td>{{client.firstName}} {{client.lastName}}</td>
+      <td>{{client.streetAddress}}, {{client.city}} {{client.stateCode}}  {{client.zipCode}}</td>
+      <td>{{client.accounts.length }}</td>
+      <td>{{ lodash.sum(lodash.map(client.accounts, 'accountBalance')) | currency }}</td>
+      <td>
+        <a class="btn btn-primary" routerLink="/clients/{{client.clientId}}" role="button">Details</a>
+      </td>
+    </tr>
+
+
+</table>

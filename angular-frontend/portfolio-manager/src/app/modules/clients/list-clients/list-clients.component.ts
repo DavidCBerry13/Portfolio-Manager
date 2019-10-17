@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { ClientService } from 'src/app/core/services/client/client.service';
+import { Client } from 'src/app/core/services/client/client';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-list-clients',
@@ -7,9 +10,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ListClientsComponent implements OnInit {
 
-  constructor() { }
+
+  clients: Client[];
+  lodash: any;
+
+  constructor(private clientService: ClientService) {
+    this.lodash = _;
+  }
 
   ngOnInit() {
+    this.clientService.getClients()
+    .subscribe(clients => this.clients = _.orderBy(clients, ['lastName', 'firstName'], ['desc', 'desc']) );
   }
 
 }

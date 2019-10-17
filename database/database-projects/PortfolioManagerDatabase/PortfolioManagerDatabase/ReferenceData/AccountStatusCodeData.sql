@@ -9,7 +9,7 @@ ON Target.AccountStatusCode = Source.AccountStatusCode
         UPDATE
 		    SET
 			AccountStatusName = Source.AccountStatusName,
-			ExternalFIsOpenlow = Source.IsOpen
+			IsOpen = Source.IsOpen
     WHEN NOT MATCHED BY TARGET THEN
         INSERT (AccountStatusCode, AccountStatusName, IsOpen)
         VALUES (AccountStatusCode, AccountStatusName, IsOpen);
