@@ -4,14 +4,8 @@ using System.Text;
 
 namespace BrokerageAccountApi.Core.Domain
 {
-    public class Client
+    public class ClientSearchResult
     {
-
-        public Client()
-        {
-            Accounts = new List<InvestmentAccount>();
-        }
-
 
         public int ClientId { get; set; }
 
@@ -28,13 +22,9 @@ namespace BrokerageAccountApi.Core.Domain
 
         public String ZipCode { get; set; }
 
-        public String EmailAddress { get; set; }
+        public int ActiveAccounts { get; set; }
 
-        public String Phone { get; set; }
-
-        public DateTime DateOfBirth { get; set; }
-
-        public List<InvestmentAccount> Accounts { get; set; }
+        public decimal CurrentAccountsValue { get; set; }
 
     }
 }

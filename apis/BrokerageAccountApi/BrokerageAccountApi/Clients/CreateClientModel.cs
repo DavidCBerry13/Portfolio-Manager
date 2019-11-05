@@ -1,19 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace BrokerageAccountApi.Core.Domain
+namespace BrokerageAccountApi.Clients
 {
-    public class Client
+    public class CreateClientModel
     {
-
-        public Client()
-        {
-            Accounts = new List<InvestmentAccount>();
-        }
-
-
-        public int ClientId { get; set; }
 
 
         public String FirstName { get; set; }
@@ -24,7 +17,7 @@ namespace BrokerageAccountApi.Core.Domain
 
         public String City { get; set; }
 
-        public State State { get; set; }
+        public String StateCode { get; set; }
 
         public String ZipCode { get; set; }
 
@@ -33,8 +26,5 @@ namespace BrokerageAccountApi.Core.Domain
         public String Phone { get; set; }
 
         public DateTime DateOfBirth { get; set; }
-
-        public List<InvestmentAccount> Accounts { get; set; }
-
     }
 }

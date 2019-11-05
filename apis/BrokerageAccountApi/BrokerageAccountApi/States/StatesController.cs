@@ -33,7 +33,7 @@ namespace BrokerageAccountApi.States
         }
 
         // GET: api/States/5
-        [HttpGet("{stateCode}", Name = "Get")]
+        [HttpGet("{stateCode}", Name = "GetStates")]
         public IActionResult Get(String stateCode)
         {
             var state = _stateService.GetState(stateCode);

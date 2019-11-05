@@ -1,4 +1,5 @@
 ﻿using BrokerageAccountApi.Core.Services;
+using BrokerageAccountApi.Core.Services.Clients;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,7 @@ namespace BrokerageAccountApi.Core
         {
 
             services.AddScoped<IStateService, StateService>();
+            services.AddScoped<IClientService, ClientService>();
         }
 
     }

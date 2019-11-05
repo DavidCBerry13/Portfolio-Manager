@@ -18,6 +18,7 @@ using NLog.Web;
 using Swashbuckle.AspNetCore.Swagger;
 using BrokerageAccountApi.Data.EF;
 using BrokerageAccountApi.Core;
+using BrokerageAccounts.Data.Dapper;
 
 namespace BrokerageAccountApi
 {
@@ -46,7 +47,8 @@ namespace BrokerageAccountApi
 
             // Data Access Configuration
             var connectionString = this.Configuration.GetConnectionString("BrokerageAccountDatabase");
-            services.RegisterEfCoreDataAccessClasses(connectionString, LoggerFactory);
+            //services.RegisterEfCoreDataAccessClasses(connectionString, LoggerFactory);
+            services.RegisterEfCoreDataAccessClasses(connectionString);
             services.RegisterServiceClasses();
 
             this.ConfigureServicesVersioning(services);
@@ -107,20 +109,20 @@ namespace BrokerageAccountApi
         {
             services.AddSwaggerGen(options =>
             {
-                options.SwaggerDoc("v1", new Info { Title = "Security Data API v1", Version = "v1" });
-                options.DocInclusionPredicate((docName, apiDesc) =>
-                {
-                    var actionApiVersionModel = apiDesc.ActionDescriptor?.GetApiVersion();
-                    if (actionApiVersionModel == null)
-                    {
-                        return true;
-                    }
-                    if (actionApiVersionModel.DeclaredApiVersions.Any())
-                    {
-                        return actionApiVersionModel.DeclaredApiVersions.Any(v => $"v{v.ToString()}" == docName);
-                    }
-                    return actionApiVersionModel.ImplementedApiVersions.Any(v => $"v{v.ToString()}" == docName);
-                });
+                options.SwaggerDoc("v1", new Info { Title = "Investment Account Data API v1", Version = "v1" });
+                //options.DocInclusionPredicate((docName, apiDesc) =>
+                //{
+                //    var actionApiVersionModel = apiDesc.ActionDescriptor?.GetApiVersion();
+                //    if (actionApiVersionModel == null)
+                //    {
+                //        return true;
+                //    }
+                //    if (actionApiVersionModel.DeclaredApiVersions.Any())
+                //    {
+                //        return actionApiVersionModel.DeclaredApiVersions.Any(v => $"v{v.ToString()}" == docName);
+                //    }
+                //    return actionApiVersionModel.ImplementedApiVersions.Any(v => $"v{v.ToString()}" == docName);
+                //});
 
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);

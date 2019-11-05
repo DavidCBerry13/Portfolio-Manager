@@ -23,6 +23,7 @@
     <ProjectReference Include="..\..\Common\Framework.ApiUtil\Framework.ApiUtil.csproj" />
     <ProjectReference Include="..\BrokerageAccountApi.Core\BrokerageAccountApi.Core.csproj" />
     <ProjectReference Include="..\BrokerageAccountApi.Data.EF\BrokerageAccountApi.Data.EF.csproj" />
+    <ProjectReference Include="..\BrokerageAccounts.Data.Dapper\BrokerageAccounts.Data.Dapper.csproj" />
   </ItemGroup>
 
 </Project>
