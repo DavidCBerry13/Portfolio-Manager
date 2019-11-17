@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
+using BrokerageAccountApi.Core.Domain;
 using BrokerageAccountApi.Core.Services;
 using BrokerageAccountApi.Core.Services.Clients;
 using Microsoft.AspNetCore.Http;
@@ -14,41 +16,21 @@ namespace BrokerageAccountApi.Clients
     public class ClientsController : ControllerBase
     {
 
-        public ClientsController(IClientService clientService)
+        public ClientsController(IClientService clientService, IMapper mapper)
         {
             _clientService = clientService;
+            _mapper = mapper;
         }
 
-
+        private readonly IMapper _mapper;
         private readonly IClientService _clientService;
 
         // GET: api/Clients
         [HttpGet(Name = "GetClients")]
         public ActionResult<ClientModel> Get()
         {
-            var clients = _clientService.GetClients();
-
-            var models = clients.Select(c => new ClientModel()
-            {
-                ClientId = c.ClientId,
-                FirstName = c.FirstName,
-                LastName = c.LastName,
-                StreetAddress = c.StreetAddress,
-                City = c.City,
-                StateCode = c.State.StateCode,
-                ZipCode = c.ZipCode,
-                Accounts = c.Accounts.Select(a => new ClientModel.ClientAccountModel()
-                    {
-                        AccountNumber = a.AccountNumber,
-                        AccountName = a.AccountName,
-                        AccountStatus = a.AccountStatus.AccountStatusName,
-                        OpenDate = a.OpenDate.ToString("yyyy-MM-dd"),
-                        CloseDate = a.CloseDate.HasValue ? a.CloseDate.Value.ToString("yyyy-MM-dd") : String.Empty,
-                        AccountBalance = a.CurrentValue
-                    }
-                ).ToList()
-            });
-
+            var result = _clientService.GetClients();
+            var models = _mapper.Map<List<Client>, List<ClientModel>>(result.Value);
             return Ok(models);
         }
 
@@ -56,38 +38,45 @@ namespace BrokerageAccountApi.Clients
         [HttpGet("{clientId}", Name = "GetClientById")]
         public ActionResult<ClientModel> Get(int clientId)
         {
-            var client = _clientService.GetClient(clientId);
+            var result = _clientService.GetClient(clientId);
 
-            var model = new ClientModel()
-            {
-                ClientId = client.ClientId,
-                FirstName = client.FirstName,
-                LastName = client.LastName,
-                StreetAddress = client.StreetAddress,
-                City = client.City,
-                StateCode = client.State.StateCode,
-                ZipCode = client.ZipCode,
-                Accounts = client.Accounts.Select(a => new ClientModel.ClientAccountModel()
-                {
-                    AccountNumber = a.AccountNumber,
-                    AccountName = a.AccountName,
-                    AccountStatus = a.AccountStatus.AccountStatusName,
-                    OpenDate = a.OpenDate.ToString("yyyy-MM-dd"),
-                    CloseDate = a.CloseDate.HasValue ? a.CloseDate.Value.ToString("yyyy-MM-dd") : String.Empty,
-                    AccountBalance = a.CurrentValue
-                }).ToList()
-            };
-
-            return Ok(model);
+            if ( result.IsSuccess)
+            {                
+                var model = _mapper.Map<Client, ClientModel>(result.Value);
+                return Ok(model);
+            }
+            return NotFound(result.Error.Message);
         }
 
         // POST: api/Clients
         [HttpPost]
-        public void Post([FromBody]CreateClientModel createClientModel)
+        public ActionResult<ClientModel> Post([FromBody]CreateClientModel createClientModel)
         {
+            var command = new CreateClientCommand()
+            {
+                FirstName = createClientModel.FirstName,
+                LastName = createClientModel.LastName,
+                StreetAddress = createClientModel.StreetAddress,
+                City = createClientModel.City,
+                StateCode = createClientModel.StateCode,
+                ZipCode = createClientModel.ZipCode,
+                DateOfBirth = createClientModel.DateOfBirth,
+                EmailAddress = createClientModel.EmailAddress,
+                Phone = createClientModel.Phone
+            };
 
+            var result = _clientService.CreateClient(command);
 
-
+            if (result.IsSuccess)
+            {
+                var client = result.Value;
+                var model = _mapper.Map<Client, ClientModel>(result.Value);
+                return CreatedAtRoute("GetClientById", new { clientId = client.ClientId }, client);
+            }
+            else
+            {
+                return BadRequest(result.Error.Message);
+            }
         }
 
         // PUT: api/Clients/5

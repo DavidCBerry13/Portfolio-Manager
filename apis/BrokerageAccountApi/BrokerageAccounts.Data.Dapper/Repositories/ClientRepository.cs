@@ -67,7 +67,8 @@ namespace BrokerageAccounts.Data.Dapper.Repositories
 
         public static readonly String INSERT_CLIENT =
             $@"INSERT INTO Clients (FirstName, LastName, StreetAddress, City, StateCode, ZipCode, Email, Phone, DateOfBirth)
-                   VALUES (@FirstName, @LastName, @StreetAddress, @City, @StateCode, @ZipCode, @Email, @Phone, @DateOfBirth)
+                   VALUES (@FirstName, @LastName, @StreetAddress, @City, @StateCode, @ZipCode, @Email, @Phone, @DateOfBirth);
+               SELECT CAST(SCOPE_IDENTITY() as int)
               ";
 
 
@@ -149,7 +150,7 @@ namespace BrokerageAccounts.Data.Dapper.Repositories
         {
             using (var connection = GetConnection())
             {
-                connection.Execute(INSERT_CLIENT,
+                var newClientId = connection.Query<int>(INSERT_CLIENT,
                     new
                     {
                         FirstName = client.FirstName,
@@ -161,11 +162,8 @@ namespace BrokerageAccounts.Data.Dapper.Repositories
                         Email = client.EmailAddress,
                         Phone = client.Phone,
                         DateOfBirth = client.DateOfBirth
-                    });
-
-                int newClientid = connection.ExecuteScalar<int>("SELECT SCOPE_IDENTITY()");
-
-                client.ClientId = newClientid;
+                    }).Single();
+                client.ClientId = newClientId;
             }
         }
     }

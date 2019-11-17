@@ -4,7 +4,7 @@ export class CreateClient {
     lastName: string;
     streetAddress: string;
     city: string;
-    state: string;
+    stateCode: string;
     zipCode: string;
     email: string;
     phone: string;

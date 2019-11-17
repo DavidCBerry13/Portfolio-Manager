@@ -1,4 +1,5 @@
 ﻿using BrokerageAccountApi.Core.Domain;
+using Framework.ResultType;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -9,14 +10,14 @@ namespace BrokerageAccountApi.Core.Services.Clients
     {
 
 
-        Client GetClient(int clientId);
+        Result<Client> GetClient(int clientId);
 
 
-        List<Client> GetClients();
+        Result<List<Client>> GetClients();
 
 
 
-        Client CreateClient(CreateClientCommand createClient);
+        Result<Client> CreateClient(CreateClientCommand createClient);
 
 
     }

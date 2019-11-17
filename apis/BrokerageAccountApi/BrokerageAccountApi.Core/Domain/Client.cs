@@ -4,6 +4,9 @@ using System.Text;
 
 namespace BrokerageAccountApi.Core.Domain
 {
+    /// <summary>
+    /// Represents a client (person) with one or more investment accounts at the firm
+    /// </summary>
     public class Client
     {
 
@@ -11,6 +14,12 @@ namespace BrokerageAccountApi.Core.Domain
         {
             Accounts = new List<InvestmentAccount>();
         }
+
+
+        public const String FIRST_NAME_VALIDATION = @"^[A-Z][A-Z ]*[A-Z]$";
+
+        public const String LAST_NAME_VALIDATION = @"^[A-Z][A-Z \.-]*[A-Z]$";
+
 
 
         public int ClientId { get; set; }

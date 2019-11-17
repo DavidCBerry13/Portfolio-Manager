@@ -1,4 +1,6 @@
-﻿using System;
+﻿using AutoMapper;
+using BrokerageAccountApi.Core.Domain;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -47,4 +49,23 @@ namespace BrokerageAccountApi.Clients
         }
 
     }
+
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+
+    public class ClientModelAutomapperProfile : Profile
+    {
+
+        public ClientModelAutomapperProfile()
+        {
+            CreateMap<Client, ClientModel>();
+
+            CreateMap<InvestmentAccount, ClientModel.ClientAccountModel>()
+                .ForMember(dest => dest.AccountStatus, opt => opt.MapFrom(src => src.AccountStatus.AccountStatusName))
+                .ForMember(dest => dest.OpenDate, opt => opt.MapFrom(src => src.OpenDate.ToString("yyyy-MM-dd")))
+                .ForMember(dest => dest.CloseDate, opt => opt.MapFrom(src => src.CloseDate.HasValue ? src.CloseDate.Value.ToString("yyyy-MM-dd") : String.Empty))
+                .ForMember(dest => dest.AccountBalance, opt => opt.MapFrom(src => src.CurrentValue));
+        }
+    }
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
+
 }

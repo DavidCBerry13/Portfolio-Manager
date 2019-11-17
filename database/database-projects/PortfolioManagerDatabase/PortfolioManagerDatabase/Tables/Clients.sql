@@ -9,7 +9,7 @@
 	ZipCode         VARCHAR(5)         NOT NULL,
 	Email           VARCHAR(60)        NOT NULL,
 	Phone           VARCHAR(60)        NOT NULL,
-	DateOfBirth     VARCHAR(60)        NOT NULL,
+	DateOfBirth     DATE               NOT NULL,
 	CONSTRAINT PK_Clients
 	    PRIMARY KEY (ClientId)
 );

@@ -19,6 +19,8 @@ using Swashbuckle.AspNetCore.Swagger;
 using BrokerageAccountApi.Data.EF;
 using BrokerageAccountApi.Core;
 using BrokerageAccounts.Data.Dapper;
+using AutoMapper;
+using FluentValidation.AspNetCore;
 
 namespace BrokerageAccountApi
 {
@@ -43,13 +45,17 @@ namespace BrokerageAccountApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddMvc()
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
+                .AddFluentValidation(fv => fv.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly()));
 
             // Data Access Configuration
             var connectionString = this.Configuration.GetConnectionString("BrokerageAccountDatabase");
             //services.RegisterEfCoreDataAccessClasses(connectionString, LoggerFactory);
             services.RegisterEfCoreDataAccessClasses(connectionString);
             services.RegisterServiceClasses();
+
+            services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
             this.ConfigureServicesVersioning(services);
             this.ConfigureServicesSwagger(services);
