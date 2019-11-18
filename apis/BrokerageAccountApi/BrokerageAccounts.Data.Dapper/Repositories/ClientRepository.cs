@@ -46,9 +46,9 @@ namespace BrokerageAccounts.Data.Dapper.Repositories
                   FROM Clients c
                   INNER JOIN States s
                       ON c.StateCode = s.StateCode
-              	  INNER JOIN InvestmentAccounts a
+              	  LEFT OUTER JOIN InvestmentAccounts a
               	      ON c.ClientId = a.ClientId
-                  INNER JOIN AccountStatusCodes sc
+                  LEFT OUTER JOIN AccountStatusCodes sc
                       ON sc.AccountStatusCode = a.AccountStatusCode
               	  INNER JOIN CurrentTradeDate d	   
               	      ON 1 = 1 
@@ -123,9 +123,11 @@ namespace BrokerageAccounts.Data.Dapper.Repositories
                         {
                             // First time we have seen this client
                             client.State = state;
-                            account.AccountStatus = accountStatus;
-                            client.Accounts.Add(account);
-
+                            if (account != null)  // This is for the case when a client has no accounts at all
+                            {
+                                account.AccountStatus = accountStatus;
+                                client.Accounts.Add(account);
+                            }
                             clients.Add(client.ClientId, client);                            
                             return client;
                         }
