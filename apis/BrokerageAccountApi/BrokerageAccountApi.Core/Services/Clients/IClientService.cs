@@ -13,7 +13,7 @@ namespace BrokerageAccountApi.Core.Services.Clients
         Result<Client> GetClient(int clientId);
 
 
-        Result<List<Client>> GetClients();
+        Result<List<Client>> GetClients(bool activeOnly = false);
 
 
 

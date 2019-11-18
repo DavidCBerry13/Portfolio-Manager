@@ -28,9 +28,9 @@ namespace BrokerageAccountApi.Core.Services.Clients
                 : Result.Failure<Client>(new ObjectNotFoundError($"No client could be found with the id of {clientId}"));
         }
 
-        public Result<List<Client>> GetClients()
+        public Result<List<Client>> GetClients(bool activeOnly = false)
         {
-            return Result.Success<List<Client>>(_clientRepository.LoadClients(false));
+            return Result.Success<List<Client>>(_clientRepository.LoadClients(activeOnly));
         }
 
         public Result<Client> CreateClient(CreateClientCommand createClient)

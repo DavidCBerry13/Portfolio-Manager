@@ -9,7 +9,7 @@ namespace BrokerageAccountApi.Core.DataAccess
     {
 
 
-        List<Client> LoadClients(bool includeInactive);
+        List<Client> LoadClients(bool activeOnly = false);
 
 
         Client LoadClient(int clientId);

@@ -36,9 +36,9 @@ namespace BrokerageAccountApi.Clients
         /// </summary>
         /// <returns></returns>
         [HttpGet(Name = "GetClients")]
-        public ActionResult<ClientModel> Get()
+        public ActionResult<ClientModel> Get(bool activeOnly = true)
         {
-            var result = _clientService.GetClients();
+            var result = _clientService.GetClients(activeOnly);
             var models = _mapper.Map<List<Client>, List<ClientModel>>(result.Value);
             return Ok(models);
         }

@@ -58,6 +58,14 @@ namespace BrokerageAccounts.Data.Dapper.Repositories
              ";
 
 
+        public static readonly String SELECT_ONLY_ACTIVE_CLIENTS =
+            $@"{SELECT_ALL_CLIENTS}
+                   WHERE
+				       a.AccountNumber IS NOT NULL
+				      AND sc.IsOpen = 1
+              ";
+
+
         public static readonly String SELECT_CLIENT_BY_CLIENT_ID =
             $@"{SELECT_ALL_CLIENTS}
                    WHERE 
@@ -108,15 +116,15 @@ namespace BrokerageAccounts.Data.Dapper.Repositories
             }
         }
 
-        public List<Client> LoadClients(bool includeInactive)
+        public List<Client> LoadClients(bool activeOnly = false)
         {
-
             var clients = new Dictionary<int, Client>();
+            String sql = activeOnly ? SELECT_ONLY_ACTIVE_CLIENTS : SELECT_ALL_CLIENTS;
 
             using (var connection = GetConnection())
             {
                 return connection.Query<Client, State, InvestmentAccount, AccountStatus, Client>(
-                    SELECT_ALL_CLIENTS,
+                    sql,
                     (client, state, account, accountStatus) =>
                     {                       
                         if (!clients.ContainsKey(client.ClientId))
