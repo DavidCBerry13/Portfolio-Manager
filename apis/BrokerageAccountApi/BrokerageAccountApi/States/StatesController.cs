@@ -8,11 +8,18 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BrokerageAccountApi.States
 {
+
+    /// <summary>
+    /// Enpoint to expose the master list of US States and Territories
+    /// </summary>
     [Route("api/[controller]")]
-   
     public class StatesController : ControllerBase
     {
 
+        /// <summary>
+        /// Creates a new StatesController class
+        /// </summary>
+        /// <param name="stateService">An IStateService object that encapsualtes the logic for getting state data</param>
         public StatesController(IStateService stateService)
         {
             _stateService = stateService;
@@ -22,7 +29,10 @@ namespace BrokerageAccountApi.States
         private IStateService _stateService;
 
 
-        // GET: api/States
+        /// <summary>
+        /// Gets the list of US States and territories.  This is useful for populating dropdownsin forms
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public IActionResult Get()
         {
@@ -32,7 +42,12 @@ namespace BrokerageAccountApi.States
             return Ok(models);
         }
 
-        // GET: api/States/5
+
+        /// <summary>
+        /// Get the State object associated with the provided two character USPS state abbreviation
+        /// </summary>
+        /// <param name="stateCode">A two character USPS state abbreviation</param>
+        /// <returns></returns>
         [HttpGet("{stateCode}", Name = "GetStates")]
         public IActionResult Get(String stateCode)
         {
