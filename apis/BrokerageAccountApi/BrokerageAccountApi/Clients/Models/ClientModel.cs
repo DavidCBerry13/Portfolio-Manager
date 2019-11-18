@@ -106,7 +106,8 @@ namespace BrokerageAccountApi.Clients
 
         public ClientModelAutomapperProfile()
         {
-            CreateMap<Client, ClientModel>();
+            CreateMap<Client, ClientModel>()
+                .ForMember(dest => dest.StateCode, opt => opt.MapFrom(src => src.State.StateCode));
 
             CreateMap<InvestmentAccount, ClientModel.ClientAccountModel>()
                 .ForMember(dest => dest.AccountStatus, opt => opt.MapFrom(src => src.AccountStatus.AccountStatusName))

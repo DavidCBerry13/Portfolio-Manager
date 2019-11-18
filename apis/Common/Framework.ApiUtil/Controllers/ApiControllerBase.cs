@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Framework.ApiUtil.Models;
+using Framework.ResultType;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Logging;
@@ -27,10 +28,6 @@ namespace Framework.ApiUtil.Controllers
 
             protected ILogger _logger;
             protected IMapper _mapper;
-
-
-
-
 
 
 
@@ -71,5 +68,73 @@ namespace Framework.ApiUtil.Controllers
 
             }
 
+
+        protected ActionResult CreateResponse<TEntity, TModel>(Result<TEntity> result, Func<TEntity, ActionResult> successFunction)
+        {
+            if (result.IsSuccess)
+            {
+                return successFunction(result.Value);
+            }
+            else
+            {
+                return MapErrorResult<TEntity, TModel>(result);
+            }
         }
+
+
+        protected internal ActionResult MapErrorResult<TEntity, TModel>(Result result)
+        {
+            switch (result.Error)
+            {
+                case InvalidDataError error:
+                    return BadRequest(new ApiMessageModel() { Message = error.Message });
+                case ObjectNotFoundError error:
+                    return NotFound(new ApiMessageModel() { Message = error.Message });
+                case ObjectAlreadyExistsError<TEntity> error:
+                    return CreateObjectExistsConflictErrorResult<TEntity, TModel>(error);
+                case ConcurrencyError<TEntity> error:
+                    return CreateConcurrencyConflictErrorResult<TEntity, TModel>(error);
+                default:
+                    return this.InternalServerError(new ApiMessageModel() { Message = "An unexpected error has occured.  The error has been logged and is being investigated" });
+            }
+        }
+
+
+        protected internal ActionResult MapErrorResult(Result result)
+        {
+            switch (result.Error)
+            {
+                case InvalidDataError e:
+                    return BadRequest(new ApiMessageModel() { Message = e.Message });
+                case ObjectNotFoundError e:
+                    return NotFound(new ApiMessageModel() { Message = e.Message });
+                default:
+                    return this.InternalServerError(new ApiMessageModel() { Message = "An unexpected error has occured.  The error has been logged and is being investigated" });
+            }
+        }
+
+
+        protected virtual ActionResult CreateConcurrencyConflictErrorResult<TEntity, TModel>(ConcurrencyError<TEntity> concurrencyError)
+        {
+            var model = _mapper.Map<TEntity, TModel>(concurrencyError.ConflictingObject);
+            var message = new ConcurrencyErrorModel<TModel>()
+            {
+                Message = concurrencyError.Message,
+                CurrentObject = model
+            };
+            return new ConflictObjectResult(message);
+        }
+
+        protected virtual ActionResult CreateObjectExistsConflictErrorResult<TEntity, TModel>(ObjectAlreadyExistsError<TEntity> objectExistsError)
+        {
+            var model = _mapper.Map<TEntity, TModel>(objectExistsError.ExistingObject);
+            var message = new ConcurrencyErrorModel<TModel>()
+            {
+                Message = objectExistsError.Message,
+                CurrentObject = model
+            };
+            return new ConflictObjectResult(message);
+        }
+
+    }
 }

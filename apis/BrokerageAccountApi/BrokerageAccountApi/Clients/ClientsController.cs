@@ -6,8 +6,10 @@ using AutoMapper;
 using BrokerageAccountApi.Core.Domain;
 using BrokerageAccountApi.Core.Services;
 using BrokerageAccountApi.Core.Services.Clients;
+using Framework.ApiUtil.Controllers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace BrokerageAccountApi.Clients
 {
@@ -17,16 +19,16 @@ namespace BrokerageAccountApi.Clients
     /// </summary>
     [Route("api/[controller]")]
     [ApiController]
-    public class ClientsController : ControllerBase
+    public class ClientsController : ApiControllerBase
     {
 
-        public ClientsController(IClientService clientService, IMapper mapper)
+        public ClientsController(IClientService clientService, ILogger<ApiControllerBase> logger, IMapper mapper)
+            : base(logger, mapper)
         {
             _clientService = clientService;
             _mapper = mapper;
         }
 
-        private readonly IMapper _mapper;
         private readonly IClientService _clientService;
 
         /// <summary>
@@ -84,13 +86,12 @@ namespace BrokerageAccountApi.Clients
 
             if (result.IsSuccess)
             {
-                var client = result.Value;
                 var model = _mapper.Map<Client, ClientModel>(result.Value);
-                return CreatedAtRoute("GetClientById", new { clientId = client.ClientId }, client);
+                return CreatedAtRoute("GetClientById", new { clientId = model.ClientId }, model);
             }
             else
             {
-                return BadRequest(result.Error.Message);
+                return MapErrorResult<Client, ClientModel>(result);
             }
         }
 

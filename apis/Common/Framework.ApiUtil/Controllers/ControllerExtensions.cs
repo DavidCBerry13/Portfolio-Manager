@@ -14,7 +14,7 @@ namespace Framework.ApiUtil.Controllers
         /// </summary>
         /// <param name="controller">A Controller object this method is being called against</param>
         /// <returns>A ForbiddenResult object representing an HTTP 403 response</returns>
-        public static IActionResult Forbidden(this Controller controller)
+        public static ActionResult Forbidden(this Controller controller)
         {
             return new ForbiddenResult();
         }
@@ -26,18 +26,18 @@ namespace Framework.ApiUtil.Controllers
         /// <param name="value">A FobiddenObjectResult object representing an HTTP 403 response with a payload describing 
         /// why the request was rejected</param>
         /// <returns></returns>
-        public static IActionResult Forbidden(this ApiControllerBase controller, object value)
+        public static ActionResult Forbidden(this ApiControllerBase controller, object value)
         {
             return new ForbiddenObjectResult(value);
         }
 
 
-        public static IActionResult InternalServerError(this ApiControllerBase controller)
+        public static ActionResult InternalServerError(this ApiControllerBase controller)
         {
             return new InternalServerErrorResult();
         }
 
-        public static IActionResult InternalServerError(this ApiControllerBase controller, object value)
+        public static ActionResult InternalServerError(this ApiControllerBase controller, object value)
         {
             return new InternalServerErrorObjectResult(value);
         }
