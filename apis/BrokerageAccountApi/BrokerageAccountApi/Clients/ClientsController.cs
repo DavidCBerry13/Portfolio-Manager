@@ -11,6 +11,10 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BrokerageAccountApi.Clients
 {
+
+    /// <summary>
+    /// Provides information about clients with investment accounts
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class ClientsController : ControllerBase
@@ -25,7 +29,10 @@ namespace BrokerageAccountApi.Clients
         private readonly IMapper _mapper;
         private readonly IClientService _clientService;
 
-        // GET: api/Clients
+        /// <summary>
+        /// Gets a list of all clients with investment accounts
+        /// </summary>
+        /// <returns></returns>
         [HttpGet(Name = "GetClients")]
         public ActionResult<ClientModel> Get()
         {
@@ -34,7 +41,11 @@ namespace BrokerageAccountApi.Clients
             return Ok(models);
         }
 
-        // GET: api/Clients/5
+        /// <summary>
+        /// Gets the client record for the client with the given id
+        /// </summary>
+        /// <param name="clientId"></param>
+        /// <returns></returns>
         [HttpGet("{clientId}", Name = "GetClientById")]
         public ActionResult<ClientModel> Get(int clientId)
         {
@@ -48,7 +59,11 @@ namespace BrokerageAccountApi.Clients
             return NotFound(result.Error.Message);
         }
 
-        // POST: api/Clients
+        /// <summary>
+        /// Creates a new client, initially without any accounts
+        /// </summary>
+        /// <param name="createClientModel"></param>
+        /// <returns></returns>
         [HttpPost]
         public ActionResult<ClientModel> Post([FromBody]CreateClientModel createClientModel)
         {
@@ -85,10 +100,6 @@ namespace BrokerageAccountApi.Clients
         {
         }
 
-        // DELETE: api/ApiWithActions/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
+
     }
 }

@@ -11,26 +11,55 @@ using System.Threading.Tasks;
 
 namespace BrokerageAccountApi.Clients
 {
+    /// <summary>
+    /// Model object that defines the data that must be provided to create a new client
+    /// </summary>
     public class CreateClientModel
     {
 
-
+        /// <summary>
+        /// First name of the client
+        /// </summary>
         public String FirstName { get; set; }
 
+        /// <summary>
+        /// Last name of the client
+        /// </summary>
         public String LastName { get; set; }
 
+        /// <summary>
+        /// Street address of the client
+        /// </summary>
         public String StreetAddress { get; set; }
 
+        /// <summary>
+        /// City for the client's address
+        /// </summary>
         public String City { get; set; }
 
+        /// <summary>
+        /// Two character USPS state abbreviation of the state for the address of the client
+        /// </summary>
         public String StateCode { get; set; }
 
+        /// <summary>
+        /// 5 digit zip code of the client's zip code
+        /// </summary>
         public String ZipCode { get; set; }
 
+        /// <summary>
+        /// Email address of the client
+        /// </summary>
         public String EmailAddress { get; set; }
 
+        /// <summary>
+        /// Phone number of the client
+        /// </summary>
         public String Phone { get; set; }
 
+        /// <summary>
+        /// Date of birth of the client
+        /// </summary>
         public DateTime DateOfBirth { get; set; }
     }
 
