@@ -6,8 +6,8 @@ export class CreateClient {
     city: string;
     stateCode: string;
     zipCode: string;
-    email: string;
+    emailAddress: string;
     phone: string;
-    dateOfBirth: Date;
+    dateOfBirth: string;
 
 }
