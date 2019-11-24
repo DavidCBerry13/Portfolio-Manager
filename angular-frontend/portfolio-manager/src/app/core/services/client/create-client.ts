@@ -8,6 +8,6 @@ export class CreateClient {
     zipCode: string;
     emailAddress: string;
     phone: string;
-    dateOfBirth: string;
+    dateOfBirth: Date;
 
 }

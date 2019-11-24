@@ -5,6 +5,7 @@ import { State } from 'src/app/core/services/reference-data/state';
 import * as _ from 'lodash';
 import { NgForm } from '@angular/forms';
 import { ClientService } from 'src/app/core/services/client/client.service';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-create-client',
@@ -15,10 +16,15 @@ export class CreateClientComponent implements OnInit {
 
   constructor(private referenceDataService: ReferenceDataService, private clientService: ClientService) {
     this.client = new CreateClient();
+    this.minDate = moment().add(-100, 'years').toDate();
+    this.maxDate = moment().add(-18, 'years').toDate();
   }
 
   states: State[];
   client: CreateClient;
+  minDate: Date;
+  maxDate: Date;
+
 
   ngOnInit() {
     this.referenceDataService.getStates()
