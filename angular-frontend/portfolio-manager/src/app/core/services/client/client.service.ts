@@ -29,6 +29,16 @@ export class ClientService extends BaseService {
   }
 
 
+  getClient(id: number): Observable<Client> {
+    const url = environment.brokerageAccountsUrl + this.CLIENTS_ENDPOINT + '/' + id;
+    return this.http.get<Client>(url)
+      .pipe(
+        tap(_ => this.log('fetched client ' + id)),
+        catchError(this.handleError<Client>('getClient', null))
+      );
+  }
+
+
   addClient(createClient: CreateClient): Observable<Client> {
     const url = environment.brokerageAccountsUrl + this.CLIENTS_ENDPOINT;
 

@@ -1,4 +1,4 @@
-﻿using Framework.OperationResults;
+﻿using DavidBerry.Framework.ResultType;
 using Securities.Core.Domain;
 using System;
 using System.Collections.Generic;
@@ -11,26 +11,18 @@ namespace Securities.Core.AppInterfaces
 
 
 
-        Result<SecurityPriceErrorCode> TryGetSecurityPrices(DateTime? date, out List<SecurityPrice> securityPrices);
+        Result<List<SecurityPrice>> TryGetSecurityPrices(DateTime? date);
 
 
         //List<SecurityPrice> GetSecurityPrices(TradeDate date, IEnumerable<String> tickers);
 
-        Result<SecurityPriceErrorCode> TryGetSecurityPrice(String ticker, DateTime? date, out SecurityPrice securityPrice);
+        Result<SecurityPrice> TryGetSecurityPrice(String ticker, DateTime? date);
 
 
         //List<SecurityPrice> GetSecurityPrices(String ticker, TradeDate startDate, TradeDate endDate);
 
 
 
-    }
-
-
-    public class SecurityPriceErrorCode : ErrorCode
-    {
-        public static readonly SecurityPriceErrorCode TRADE_DATE_NOT_VALID = ErrorCode.New<SecurityPriceErrorCode>(1);
-        public static readonly SecurityPriceErrorCode TICKER_DOES_NOT_EXIST = ErrorCode.New<SecurityPriceErrorCode>(2);
-        public static readonly SecurityPriceErrorCode NO_DATA_FOR_TICKER_ON_TRADE_DATE = ErrorCode.New<SecurityPriceErrorCode>(3);
     }
 
 }

@@ -7,6 +7,11 @@ namespace BrokerageAccountApi.Core.Domain
     public class InvestmentAccount
     {
 
+        public const String ACCOUNT_NAME_VALIDATION = @"^[A-Z][A-Z -\.]*[A-Z]$";
+
+        public const int ACCOUNT_NAME_MAX_LENGTH = 40;
+
+
         public String AccountNumber { get; set; }
 
         public String AccountName { get; set; }

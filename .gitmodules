@@ -1,0 +1,3 @@
+[submodule "apis/FrameworkProjects"]
+	path = apis/FrameworkProjects
+	url = https://github.com/DavidCBerry13/FrameworkProjects

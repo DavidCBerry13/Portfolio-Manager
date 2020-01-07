@@ -3,17 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29209.62
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecuritiesApi", "SecuritiesApi\SecuritiesApi.csproj", "{A953D0F6-A67E-41E4-B09C-05A43C9D694B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SecuritiesApi", "SecuritiesApi\SecuritiesApi.csproj", "{A953D0F6-A67E-41E4-B09C-05A43C9D694B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Securities.Core", "Securities.Core\Securities.Core.csproj", "{9B5B8F95-1ADE-424A-BB64-B4DBA32523B3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Securities.Core", "Securities.Core\Securities.Core.csproj", "{9B5B8F95-1ADE-424A-BB64-B4DBA32523B3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Securities.Data.Dapper", "Securities.Data.Dapper\Securities.Data.Dapper.csproj", "{ED615E07-832F-4BD0-9CED-FE499329D757}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Securities.Data.Dapper", "Securities.Data.Dapper\Securities.Data.Dapper.csproj", "{ED615E07-832F-4BD0-9CED-FE499329D757}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SharedLibraries", "SharedLibraries", "{1AE3C63D-4D0B-488F-B49D-94EF3DED1FAD}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Framework Projects", "Framework Projects", "{1AE3C63D-4D0B-488F-B49D-94EF3DED1FAD}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Framework.ApiUtil", "..\Common\Framework.ApiUtil\Framework.ApiUtil.csproj", "{66A0A31E-ABD1-47D2-98A6-0D05866C948A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DavidBerry.Framework", "..\FrameworkProjects\DavidBerry.Framework\DavidBerry.Framework\DavidBerry.Framework.csproj", "{0D81D2F3-CF6F-4547-903F-DA0639A2D002}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Framework", "..\Common\Framework\Framework.csproj", "{FEC05E2D-4173-4201-8D5F-6F0671169EEB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DavidBerry.Framework.ApiUtil", "..\FrameworkProjects\DavidBerry.Framework.ApiUtil\DavidBerry.Framework.ApiUtil\DavidBerry.Framework.ApiUtil.csproj", "{B7748588-29E1-472A-8EAB-3DCB8066BD48}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,21 +33,21 @@ Global
 		{ED615E07-832F-4BD0-9CED-FE499329D757}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ED615E07-832F-4BD0-9CED-FE499329D757}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ED615E07-832F-4BD0-9CED-FE499329D757}.Release|Any CPU.Build.0 = Release|Any CPU
-		{66A0A31E-ABD1-47D2-98A6-0D05866C948A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{66A0A31E-ABD1-47D2-98A6-0D05866C948A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{66A0A31E-ABD1-47D2-98A6-0D05866C948A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{66A0A31E-ABD1-47D2-98A6-0D05866C948A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FEC05E2D-4173-4201-8D5F-6F0671169EEB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FEC05E2D-4173-4201-8D5F-6F0671169EEB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FEC05E2D-4173-4201-8D5F-6F0671169EEB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FEC05E2D-4173-4201-8D5F-6F0671169EEB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0D81D2F3-CF6F-4547-903F-DA0639A2D002}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0D81D2F3-CF6F-4547-903F-DA0639A2D002}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0D81D2F3-CF6F-4547-903F-DA0639A2D002}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0D81D2F3-CF6F-4547-903F-DA0639A2D002}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B7748588-29E1-472A-8EAB-3DCB8066BD48}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B7748588-29E1-472A-8EAB-3DCB8066BD48}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B7748588-29E1-472A-8EAB-3DCB8066BD48}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B7748588-29E1-472A-8EAB-3DCB8066BD48}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{66A0A31E-ABD1-47D2-98A6-0D05866C948A} = {1AE3C63D-4D0B-488F-B49D-94EF3DED1FAD}
-		{FEC05E2D-4173-4201-8D5F-6F0671169EEB} = {1AE3C63D-4D0B-488F-B49D-94EF3DED1FAD}
+		{0D81D2F3-CF6F-4547-903F-DA0639A2D002} = {1AE3C63D-4D0B-488F-B49D-94EF3DED1FAD}
+		{B7748588-29E1-472A-8EAB-3DCB8066BD48} = {1AE3C63D-4D0B-488F-B49D-94EF3DED1FAD}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {18B27055-8B50-4E05-90DF-D1F7E72A1DC5}

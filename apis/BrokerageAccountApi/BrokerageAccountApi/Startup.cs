@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using Framework.ApiUtil.Controllers;
+using DavidBerry.Framework.ApiUtil.Controllers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -21,33 +21,40 @@ using BrokerageAccountApi.Core;
 using BrokerageAccounts.Data.Dapper;
 using AutoMapper;
 using FluentValidation.AspNetCore;
+using Microsoft.OpenApi.Models;
+using DavidBerry.Framework.ApiUtil;
+using Microsoft.Extensions.Hosting;
 
 namespace BrokerageAccountApi
 {
     public class Startup
     {
-        public Startup(IHostingEnvironment env, IConfiguration configuration, ILoggerFactory loggerFactory)
+        public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
-            HostingEnvironment = env;
-
-            this.LoggerFactory = loggerFactory;
-
-            // For NLog                   
-            env.ConfigureNLog("nlog.config");
         }
 
+
         public IConfiguration Configuration { get; }
-        public IHostingEnvironment HostingEnvironment { get; }
-        public ILoggerFactory LoggerFactory { get; }
 
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc()
-                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
+            services.AddControllers()
                 .AddFluentValidation(fv => fv.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly()));
+
+            services.AddCors();
+            services.AddAutoMapper(Assembly.GetExecutingAssembly(), Assembly.GetAssembly(typeof(UrlResolver)));
+            services.AddApiVersioning(cfg =>
+            {
+                cfg.DefaultApiVersion = new Microsoft.AspNetCore.Mvc.ApiVersion(1, 0);
+                cfg.AssumeDefaultVersionWhenUnspecified = true;
+                cfg.ReportApiVersions = true;
+                cfg.ApiVersionReader = new HeaderApiVersionReader("api-version");
+            });
+
+            services.AddSingleton<IConfiguration>(Configuration);
 
             // Data Access Configuration
             var connectionString = this.Configuration.GetConnectionString("BrokerageAccountDatabase");
@@ -55,15 +62,12 @@ namespace BrokerageAccountApi
             services.RegisterEfCoreDataAccessClasses(connectionString);
             services.RegisterServiceClasses();
 
-            services.AddAutoMapper(Assembly.GetExecutingAssembly());
-
-            this.ConfigureServicesVersioning(services);
             this.ConfigureServicesSwagger(services);
         }
 
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -75,6 +79,12 @@ namespace BrokerageAccountApi
                 app.UseHsts();
             }
 
+            app.UseHttpsRedirection();
+
+            app.UseRouting();
+
+            app.UseAuthorization();
+
             // Configure Cors
             app.UseCors(builder =>
                builder.AllowAnyOrigin()
@@ -82,40 +92,26 @@ namespace BrokerageAccountApi
                    .AllowAnyMethod()
             );
 
-            app.UseHttpsRedirection();
-            app.UseMvc();
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
 
             // Configure Swagger
-            app.UseSwagger(c =>
-            {
-                c.PreSerializeFilters.Add((swagger, httpReq) => swagger.Host = httpReq.Host.Value);
-
-            });
-
+            app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Security Data API v1");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Brokerage Account Data API v1");
             });
         }
 
-
-        private void ConfigureServicesVersioning(IServiceCollection services)
-        {
-            services.AddApiVersioning(cfg =>
-            {
-                cfg.DefaultApiVersion = new Microsoft.AspNetCore.Mvc.ApiVersion(1, 0);
-                cfg.AssumeDefaultVersionWhenUnspecified = true;
-                cfg.ReportApiVersions = true;
-                cfg.ApiVersionReader = new HeaderApiVersionReader("api-version");
-            });
-        }
 
 
         private void ConfigureServicesSwagger(IServiceCollection services)
         {
             services.AddSwaggerGen(options =>
             {
-                options.SwaggerDoc("v1", new Info { Title = "Investment Account Data API v1", Version = "v1" });
+                options.SwaggerDoc("v1", new OpenApiInfo { Title = "Investment Account Data API v1", Version = "v1" });
                 //options.DocInclusionPredicate((docName, apiDesc) =>
                 //{
                 //    var actionApiVersionModel = apiDesc.ActionDescriptor?.GetApiVersion();
@@ -133,7 +129,6 @@ namespace BrokerageAccountApi
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 options.IncludeXmlComments(xmlPath);
-                options.DescribeAllEnumsAsStrings();
                 options.CustomSchemaIds(x => x.FullName);
             });
         }
