@@ -20,9 +20,9 @@ namespace Securities.Data.Dapper.Repositories
         private readonly String _connectionString;
 
         public static readonly String BASE_SQL =
-            @"SELECT  
-                  s.Ticker, 
-                  s.SecurityName AS Name, 
+            @"SELECT
+                  s.Ticker,
+                  s.SecurityName AS Name,
 		          s.SecurityTypeCode AS SecurityType,
 		          p.TradeDate,
 		          p.OpenPrice AS OpeningPrice,

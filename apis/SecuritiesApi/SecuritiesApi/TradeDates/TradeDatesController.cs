@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using DavidBerry.Framework.ApiUtil.Controllers;
+using DavidBerry.Framework.ApiUtil.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -34,17 +35,24 @@ namespace SecuritiesApi.TradeDates
         [HttpGet(Name = "GetTradeDates")]
         public IActionResult Get()
         {
-            var dates = _tradeDateService.GetTradeDates();
+            var result = _tradeDateService.GetTradeDates();
 
-            var models = dates.Select(d => new TradeDateModel()
+            if (result.IsSuccess)
             {
-                TradeDate = d.Date.ToString("yyyy-MM-dd"),
-                IsMonthEnd = d.IsMonthEnd,
-                IsQuarterEnd = d.IsQuarterEnd,
-                IsYearEnd = d.IsYearEnd
-            });
+                var models = result.Value.Select(d => new TradeDateModel()
+                {
+                    TradeDate = d.Date.ToString("yyyy-MM-dd"),
+                    IsMonthEnd = d.IsMonthEnd,
+                    IsQuarterEnd = d.IsQuarterEnd,
+                    IsYearEnd = d.IsYearEnd
+                });
 
-            return Ok(models);
+                return Ok(models);
+            }
+            else
+            {
+                return ControllerExtensions.InternalServerError(this, new ApiMessageModel() { Message = result.Error.Message });
+            }
         }
 
 
@@ -52,23 +60,22 @@ namespace SecuritiesApi.TradeDates
         [HttpGet("{date:datetime}", Name = "GetTradeDate")]
         public IActionResult Get(DateTime date)
         {
-            var tradeDate = _tradeDateService.GetTradeDate(date.Date);
-
-            if (tradeDate == null)
-            {
-                return NotFound();
-            }
-            else
+            var result = _tradeDateService.GetTradeDate(date.Date);
+            if ( result.IsSuccess)
             {
                 var model = new TradeDateModel()
                 {
-                    TradeDate = tradeDate.Date.ToString("yyyy-MM-dd"),
-                    IsMonthEnd = tradeDate.IsMonthEnd,
-                    IsQuarterEnd = tradeDate.IsQuarterEnd,
-                    IsYearEnd = tradeDate.IsYearEnd
+                    TradeDate = result.Value.Date.ToString("yyyy-MM-dd"),
+                    IsMonthEnd = result.Value.IsMonthEnd,
+                    IsQuarterEnd = result.Value.IsQuarterEnd,
+                    IsYearEnd = result.Value.IsYearEnd
                 };
 
                 return Ok(model);
+            }
+            else
+            {
+                return BadRequest(new ApiMessageModel() { Message = result.Error.Message });
             }
         }
 
@@ -77,24 +84,25 @@ namespace SecuritiesApi.TradeDates
         [HttpGet("Latest", Name = "GetLatestTradeDate")]
         public IActionResult GetLatestTradeDate()
         {
-            var tradeDate = _tradeDateService.GetLatestTradeDate();
+            var result = _tradeDateService.GetLatestTradeDate();
 
-            if (tradeDate == null)
-            {
-                return NotFound();
-            }
-            else
+            if (result.IsSuccess)
             {
                 var model = new TradeDateModel()
                 {
-                    TradeDate = tradeDate.Date.ToString("yyyy-MM-dd"),
-                    IsMonthEnd = tradeDate.IsMonthEnd,
-                    IsQuarterEnd = tradeDate.IsQuarterEnd,
-                    IsYearEnd = tradeDate.IsYearEnd
+                    TradeDate = result.Value.Date.ToString("yyyy-MM-dd"),
+                    IsMonthEnd = result.Value.IsMonthEnd,
+                    IsQuarterEnd = result.Value.IsQuarterEnd,
+                    IsYearEnd = result.Value.IsYearEnd
                 };
 
                 return Ok(model);
             }
+            else
+            {
+                return ControllerExtensions.InternalServerError(this, new ApiMessageModel() { Message = result.Error.Message });
+            }
+
         }
 
 

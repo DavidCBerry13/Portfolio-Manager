@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using DavidBerry.Framework.ResultType;
 using Securities.Core.AppInterfaces;
 using Securities.Core.DataAccess;
 using Securities.Core.Domain;
+using Securities.Core.Errors;
 
 namespace Securities.Core.AppServices
 {
@@ -17,19 +19,27 @@ namespace Securities.Core.AppServices
 
         private readonly ITradeDateRepository _tradeDateRepository;
 
-        public TradeDate GetLatestTradeDate()
+        public Result<TradeDate> GetLatestTradeDate()
         {
-            return _tradeDateRepository.GetLatestTradeDate();
+            var tradeDate = _tradeDateRepository.GetLatestTradeDate();
+            return (tradeDate != null) ?
+                Result.Success<TradeDate>(tradeDate)
+                : Result.Failure<TradeDate>("No trade dates are loaded into the system");
         }
 
-        public TradeDate GetTradeDate(DateTime date)
+        public Result<TradeDate> GetTradeDate(DateTime date)
         {
-            return _tradeDateRepository.GetTradeDate(date);
+            var tradeDate = _tradeDateRepository.GetTradeDate(date.Date);
+            return (tradeDate != null) ?
+                Result.Success<TradeDate>(tradeDate)
+                : Result.Failure<TradeDate>(new InvalidTradeDateError(date));
+
         }
 
-        public List<TradeDate> GetTradeDates()
+        public Result<List<TradeDate>> GetTradeDates()
         {
-            return _tradeDateRepository.GetTradeDates();
+            var tradeDates = _tradeDateRepository.GetTradeDates();
+            return Result.Success<List<TradeDate>>(tradeDates);
         }
     }
 }

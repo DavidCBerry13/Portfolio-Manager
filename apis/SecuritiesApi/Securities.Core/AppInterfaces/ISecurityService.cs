@@ -1,4 +1,5 @@
-﻿using Securities.Core.Domain;
+﻿using DavidBerry.Framework.ResultType;
+using Securities.Core.Domain;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -9,9 +10,9 @@ namespace Securities.Core.AppInterfaces
     {
 
 
-        List<Security> GetSecurities();
+        Result<List<Security>> GetSecurities();
 
 
-        Security GetSecurity(String ticker);
+        Result<Security> GetSecurity(String ticker);
     }
 }

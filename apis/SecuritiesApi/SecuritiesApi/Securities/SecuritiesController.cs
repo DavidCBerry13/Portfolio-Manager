@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using DavidBerry.Framework.ApiUtil.Controllers;
+using DavidBerry.Framework.ApiUtil.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -39,10 +40,18 @@ namespace SecuritiesApi.Securities
         [HttpGet(Name = "GetSecurities")]
         public IActionResult Get()
         {
-            var securities = _securityService.GetSecurities();
-            var models = _mapper.Map<List<Security>, List<SecurityModel>>(securities);
+            var result = _securityService.GetSecurities();
+            if (result.IsSuccess)
+            {
+                var models = _mapper.Map<List<Security>, List<SecurityModel>>(result.Value);
+                return Ok(models);
+            }
+            else
+            {
+                return ControllerExtensions.InternalServerError(this, new ApiMessageModel() { Message = result.Error.Message });
+            }
 
-            return Ok(models);
+
         }
 
 
@@ -54,10 +63,16 @@ namespace SecuritiesApi.Securities
         [HttpGet("{ticker}", Name = "GetSecurity")]
         public IActionResult Get(String ticker)
         {
-            var security = _securityService.GetSecurity(ticker);
-            var model = _mapper.Map<Security, SecurityModel>(security);
-
-            return Ok(model);
+            var result = _securityService.GetSecurity(ticker);
+            if (result.IsSuccess)
+            {
+                var model = _mapper.Map<Security, SecurityModel>(result.Value);
+                return Ok(model);
+            }
+            else
+            {
+                return BadRequest(result.Error.Message);
+            }
         }
 
     }

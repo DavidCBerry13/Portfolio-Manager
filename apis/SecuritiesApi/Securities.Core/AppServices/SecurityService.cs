@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using DavidBerry.Framework.ResultType;
 using Securities.Core.AppInterfaces;
 using Securities.Core.DataAccess;
 using Securities.Core.Domain;
+using Securities.Core.Errors;
 
 namespace Securities.Core.AppServices
 {
@@ -20,14 +22,18 @@ namespace Securities.Core.AppServices
         private readonly ISecurityRepository securityRepository;
 
 
-        public List<Security> GetSecurities()
+        public Result<List<Security>> GetSecurities()
         {
-            return securityRepository.GetSecurities();
+            return Result.Success<List<Security>>(securityRepository.GetSecurities());
         }
 
-        public Security GetSecurity(string ticker)
+        public Result<Security> GetSecurity(string ticker)
         {
-            return securityRepository.GetSecurity(ticker);
+            var security = securityRepository.GetSecurity(ticker);
+            return (security != null) ?
+                Result.Success<Security>(security)
+                : Result.Failure<Security>(new TickerNotFoundError(ticker));
+
         }
     }
 }
