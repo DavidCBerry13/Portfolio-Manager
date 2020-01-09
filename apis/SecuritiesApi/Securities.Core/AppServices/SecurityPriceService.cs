@@ -1,5 +1,5 @@
 ﻿using DavidBerry.Framework;
-using DavidBerry.Framework.ResultType;
+using DavidBerry.Framework.Functional;
 using Securities.Core.AppInterfaces;
 using Securities.Core.DataAccess;
 using Securities.Core.Domain;

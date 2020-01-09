@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using DavidBerry.Framework.ResultType;
+using DavidBerry.Framework.Functional;
 using Securities.Core.AppInterfaces;
 using Securities.Core.DataAccess;
 using Securities.Core.Domain;

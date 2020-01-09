@@ -1,4 +1,4 @@
-﻿using DavidBerry.Framework.ResultType;
+﻿using DavidBerry.Framework.Functional;
 using Securities.Core.Domain;
 using System;
 using System.Collections.Generic;
