@@ -11,12 +11,12 @@ namespace Securities.Core.AppInterfaces
 
 
 
-        Result<List<SecurityPrice>> TryGetSecurityPrices(DateTime? date);
+        Result<List<SecurityPrice>> GetSecurityPrices(DateTime? date);
 
 
         //List<SecurityPrice> GetSecurityPrices(TradeDate date, IEnumerable<String> tickers);
 
-        Result<SecurityPrice> TryGetSecurityPrice(String ticker, DateTime? date);
+        Result<SecurityPrice> GetSecurityPrice(String ticker, DateTime? date);
 
 
         //List<SecurityPrice> GetSecurityPrices(String ticker, TradeDate startDate, TradeDate endDate);

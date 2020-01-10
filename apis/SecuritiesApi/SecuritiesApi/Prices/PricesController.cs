@@ -34,7 +34,7 @@ namespace SecuritiesApi.Prices
         [HttpGet(Name = "GetSecurityPrices")]
         public IActionResult Get(DateTime? date)
         {
-            var result = _securityPricesService.TryGetSecurityPrices(date);
+            var result = _securityPricesService.GetSecurityPrices(date);
 
             if (result.IsSuccess)
             {
