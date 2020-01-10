@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using DavidBerry.Framework.Functional;
 using Securities.Core.DataAccess;
 using Securities.Core.Domain;
 using System;
@@ -37,7 +38,7 @@ namespace Securities.Data.Dapper.Repositories
 	              ON s.Ticker = p.Ticker";
 
 
-        public SecurityPrice GetSecurityPrice(string ticker, TradeDate tradeDate)
+        public Maybe<SecurityPrice> GetSecurityPrice(string ticker, TradeDate tradeDate)
         {
             string sql = $@"{BASE_SQL}
                WHERE p.TradeDate = @TradeDate
@@ -46,8 +47,9 @@ namespace Securities.Data.Dapper.Repositories
             using (var connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
-                return connection.QueryFirstOrDefault<SecurityPrice>(sql,
+                var price = connection.QueryFirstOrDefault<SecurityPrice>(sql,
                     new { TradeDate = tradeDate.Date, Ticker = ticker });
+                return Maybe.Create<SecurityPrice>(price);
             }
         }
 

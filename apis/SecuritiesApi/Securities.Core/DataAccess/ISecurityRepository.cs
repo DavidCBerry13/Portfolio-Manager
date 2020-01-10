@@ -1,4 +1,5 @@
-﻿using Securities.Core.Domain;
+﻿using DavidBerry.Framework.Functional;
+using Securities.Core.Domain;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -11,6 +12,6 @@ namespace Securities.Core.DataAccess
 
         List<Security> GetSecurities();
 
-        Security GetSecurity(String ticker);
+        Maybe<Security> GetSecurity(String ticker);
     }
 }

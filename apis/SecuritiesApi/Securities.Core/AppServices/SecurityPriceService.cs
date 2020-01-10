@@ -96,15 +96,18 @@ namespace Securities.Core.AppServices
         internal Result<SecurityPrice> GetSecurityPrice(string ticker, TradeDate tradeDate)
         {
 
-            Security security = _securityRepository.GetSecurity(ticker);
-            if (security == null)
+            Maybe<Security> security = _securityRepository.GetSecurity(ticker);
+            if (!security.HasValue)
                 return Result.Failure<SecurityPrice>(new TickerNotFoundError(ticker));
 
-            if (tradeDate.Date.Date < security.FirstTradeDate.Date || tradeDate.Date.Date > security.LastTradeDate)
-                return Result.Failure<SecurityPrice>(new InvalidDateForTickerError(ticker, tradeDate.Date, security.FirstTradeDate.Date, security.LastTradeDate));
+            if (tradeDate.Date.Date < security.Value.FirstTradeDate.Date || tradeDate.Date.Date > security.Value.LastTradeDate)
+                return Result.Failure<SecurityPrice>(new InvalidDateForTickerError(ticker, tradeDate.Date,
+                    security.Value.FirstTradeDate.Date, security.Value.LastTradeDate));
 
             var securityPrice = _securityPriceRepository.GetSecurityPrice(ticker, tradeDate);
-            return Result.Success<SecurityPrice>(securityPrice);
+            return securityPrice.Eval<Result<SecurityPrice>>(
+                value => Result.Success<SecurityPrice>(value),
+                () => Result.Failure<SecurityPrice>(new MissingDataError($"No data found for ticker {ticker} on trade date {tradeDate.Date}")));
         }
 
 

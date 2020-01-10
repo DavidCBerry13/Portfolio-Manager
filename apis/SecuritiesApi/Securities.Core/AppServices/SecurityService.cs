@@ -30,10 +30,12 @@ namespace Securities.Core.AppServices
         public Result<Security> GetSecurity(string ticker)
         {
             var security = securityRepository.GetSecurity(ticker);
-            return (security != null) ?
-                Result.Success<Security>(security)
-                : Result.Failure<Security>(new TickerNotFoundError(ticker));
 
+            return security.Eval<Result<Security>>(
+                value => Result.Success<Security>(value),
+                () => Result.Failure<Security>(new TickerNotFoundError(ticker))
+                );
         }
+
     }
 }

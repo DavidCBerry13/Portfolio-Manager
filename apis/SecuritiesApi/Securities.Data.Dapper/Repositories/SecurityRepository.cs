@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using DavidBerry.Framework.Functional;
 using Securities.Core.DataAccess;
 using Securities.Core.Domain;
 using System;
@@ -19,12 +20,12 @@ namespace Securities.Data.Dapper.Repositories
 
 
         public static readonly String BASE_SQL =
-            @"SELECT DISTINCT 
-                  s.Ticker, 
-                  s.SecurityName AS Name, 
+            @"SELECT DISTINCT
+                  s.Ticker,
+                  s.SecurityName AS Name,
 		          s.SecurityTypeCode AS SecurityType,
 		          FirstTradeDate = MIN(p.TradeDate) OVER (PARTITION BY s.Ticker),
-		          LastTradeDate = MAX(p.TradeDate) OVER (PARTITION BY s.Ticker)		
+		          LastTradeDate = MAX(p.TradeDate) OVER (PARTITION BY s.Ticker)
               FROM SecurityPrices p
 	          INNER JOIN Securities s
 	              ON s.Ticker = p.Ticker";
@@ -43,7 +44,7 @@ namespace Securities.Data.Dapper.Repositories
             }
         }
 
-        public Security GetSecurity(string ticker)
+        public Maybe<Security> GetSecurity(string ticker)
         {
             String sql = $@"{BASE_SQL}
                 WHERE
@@ -52,7 +53,8 @@ namespace Securities.Data.Dapper.Repositories
             using (var connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
-                return connection.QueryFirstOrDefault<Security>(sql, new { Ticker = ticker });
+                var security = connection.QueryFirstOrDefault<Security>(sql, new { Ticker = ticker });
+                return Maybe.Create<Security>(security);
             }
         }
     }
