@@ -22,18 +22,17 @@ namespace Securities.Core.AppServices
         public Result<TradeDate> GetLatestTradeDate()
         {
             var tradeDate = _tradeDateRepository.GetLatestTradeDate();
-            return (tradeDate != null) ?
-                Result.Success<TradeDate>(tradeDate)
-                : Result.Failure<TradeDate>("No trade dates are loaded into the system");
+            return tradeDate.Eval<Result<TradeDate>>(
+                d => Result.Success<TradeDate>(d),
+                () => Result.Failure<TradeDate>("No trade dates are loaded into the system"));
         }
 
         public Result<TradeDate> GetTradeDate(DateTime date)
         {
             var tradeDate = _tradeDateRepository.GetTradeDate(date.Date);
-            return (tradeDate != null) ?
-                Result.Success<TradeDate>(tradeDate)
-                : Result.Failure<TradeDate>(new InvalidTradeDateError(date));
-
+            return tradeDate.Eval<Result<TradeDate>>(
+                (d) => Result.Success<TradeDate>(d),
+                () => Result.Failure<TradeDate>(new InvalidTradeDateError(date)));
         }
 
         public Result<List<TradeDate>> GetTradeDates()

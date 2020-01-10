@@ -36,7 +36,9 @@ namespace Securities.Core.AppServices
             else
             {
                 var tradeDate = _tradeDateRepository.GetLatestTradeDate();
-                return this.TryGetSecurityPrices(tradeDate);
+                return tradeDate.Eval<Result<List<SecurityPrice>>>(
+                    d => this.TryGetSecurityPrices(d),
+                    () => Result.Failure<List<SecurityPrice>>(new ApplicationError("No trade dates are loaded into the system")));
             }
         }
 
@@ -44,11 +46,12 @@ namespace Securities.Core.AppServices
 
         internal Result<List<SecurityPrice>> TryGetSecurityPrices(DateTime date)
         {
-            TradeDate tradeDate = _tradeDateRepository.GetTradeDate(date);
-            if (tradeDate == null)
-                Result.Failure<List<SecurityPrice>>(new InvalidTradeDateError(date));
+            Maybe<TradeDate> tradeDate = _tradeDateRepository.GetTradeDate(date);
 
-            return TryGetSecurityPrices(tradeDate);
+            if (tradeDate.HasValue)
+                return TryGetSecurityPrices(tradeDate.Value);
+            else
+                return Result.Failure<List<SecurityPrice>>(new InvalidTradeDateError(date));
         }
 
 
@@ -72,7 +75,9 @@ namespace Securities.Core.AppServices
             {
                 // Look up the latest trade date and use that
                 var tradeDate = _tradeDateRepository.GetLatestTradeDate();
-                return this.TryGetSecurityPrice(ticker, tradeDate);
+                return tradeDate.Eval<Result<SecurityPrice>>(
+                    d => TryGetSecurityPrice(ticker, d),
+                    () => Result.Failure<SecurityPrice>(new ApplicationError("No trade dates are in the system")));
             }
 
         }
@@ -80,13 +85,11 @@ namespace Securities.Core.AppServices
 
         internal Result<SecurityPrice> TryGetSecurityPrice(string ticker, DateTime date)
         {
-            TradeDate tradeDate = _tradeDateRepository.GetTradeDate(date);
-            if (tradeDate == null)
-            {
-                return Result.Failure<SecurityPrice>(new InvalidTradeDateError(date));
-            }
+            Maybe<TradeDate> tradeDate = _tradeDateRepository.GetTradeDate(date);
 
-            return TryGetSecurityPrice(ticker, tradeDate);
+            return tradeDate.Eval<Result<SecurityPrice>>(
+                d => TryGetSecurityPrice(ticker, d),
+                () => Result.Failure<SecurityPrice>(new InvalidTradeDateError(date)));
         }
 
 

@@ -1,4 +1,5 @@
-﻿using Securities.Core.Domain;
+﻿using DavidBerry.Framework.Functional;
+using Securities.Core.Domain;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -10,9 +11,9 @@ namespace Securities.Core.DataAccess
 
         List<TradeDate> GetTradeDates();
 
-        TradeDate GetTradeDate(DateTime date);
+        Maybe<TradeDate> GetTradeDate(DateTime date);
 
-        TradeDate GetLatestTradeDate();
+        Maybe<TradeDate> GetLatestTradeDate();
 
     }
 }

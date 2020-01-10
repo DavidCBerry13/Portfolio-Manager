@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using DavidBerry.Framework.Functional;
 using Securities.Core.DataAccess;
 using Securities.Core.Domain;
 using System;
@@ -20,9 +21,9 @@ namespace Securities.Data.Dapper.Repositories
         public static readonly String BASE_SQL =
             @"SELECT
                   TradeDate AS Date,
-                  MonthEndDate AS IsMonthEnd,
-                  QuarterEndDate AS IsQuarterEnd,
-                  YearEndDate AS IsyearEnd
+                  IsMonthEnd,
+                  IsQuarterEnd,
+                  IsyearEnd
               FROM TradeDates";
 
         public static readonly String SINGLE_TRADE_DATE_SQL =
@@ -39,12 +40,13 @@ namespace Securities.Data.Dapper.Repositories
 
 
 
-        public TradeDate GetTradeDate(DateTime date)
+        public Maybe<TradeDate> GetTradeDate(DateTime date)
         {
             using (var connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
-                return connection.QueryFirstOrDefault<TradeDate>(SINGLE_TRADE_DATE_SQL, new { TradeDate = date.Date });
+                var tradeDate = connection.QueryFirstOrDefault<TradeDate>(SINGLE_TRADE_DATE_SQL, new { TradeDate = date.Date });
+                return Maybe.Create<TradeDate>(tradeDate);
             }
         }
 
@@ -59,12 +61,13 @@ namespace Securities.Data.Dapper.Repositories
 
 
 
-        public TradeDate GetLatestTradeDate()
+        public Maybe<TradeDate> GetLatestTradeDate()
         {
             using (var connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
-                return connection.QueryFirstOrDefault<TradeDate>(LATEST_TRADE_DATE_SQL);
+                var tradeDate = connection.QueryFirstOrDefault<TradeDate>(LATEST_TRADE_DATE_SQL);
+                return Maybe.Create<TradeDate>(tradeDate);
             }
         }
 
