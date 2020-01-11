@@ -57,5 +57,18 @@ namespace Securities.Data.Dapper.Repositories
                 return Maybe.Create<Security>(security);
             }
         }
+
+        public List<Security> GetSecurities(IEnumerable<string> tickers)
+        {
+            String sql = $@"{BASE_SQL}
+                WHERE
+                    s.Ticker IN @Tickers";
+
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
+                return connection.Query<Security>(sql, new { Tickers = tickers }).ToList();
+            }
+        }
     }
 }

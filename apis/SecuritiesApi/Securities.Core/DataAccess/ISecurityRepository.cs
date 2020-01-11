@@ -12,6 +12,8 @@ namespace Securities.Core.DataAccess
 
         List<Security> GetSecurities();
 
+        List<Security> GetSecurities(IEnumerable<string> tickers);
+
         Maybe<Security> GetSecurity(String ticker);
     }
 }

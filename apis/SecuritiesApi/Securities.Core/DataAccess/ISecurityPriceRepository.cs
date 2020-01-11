@@ -12,7 +12,7 @@ namespace Securities.Core.DataAccess
         List<SecurityPrice> GetSecurityPrices(TradeDate tradeDate);
 
 
-        //List<SecurityPrice> GetSecurityPrices(TradeDate tradeDate, IEnumerable<String> tickers);
+        List<SecurityPrice> GetSecurityPrices(TradeDate tradeDate, IEnumerable<String> tickers);
 
         Maybe<SecurityPrice> GetSecurityPrice(String ticker, TradeDate tradeDate);
 

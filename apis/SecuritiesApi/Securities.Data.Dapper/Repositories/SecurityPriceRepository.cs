@@ -66,5 +66,20 @@ namespace Securities.Data.Dapper.Repositories
                     .ToList();
             }
         }
+
+        public List<SecurityPrice> GetSecurityPrices(TradeDate tradeDate, IEnumerable<string> tickers)
+        {
+            string sql = $@"{BASE_SQL}
+               WHERE p.TradeDate = @TradeDate
+                   AND s.Ticker IN @Tickers";
+
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
+                return connection.Query<SecurityPrice>(sql,
+                    new { TradeDate = tradeDate.Date, Tickers = tickers })
+                    .ToList();
+            }
+        }
     }
 }

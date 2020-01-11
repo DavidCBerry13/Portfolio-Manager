@@ -14,7 +14,7 @@ namespace Securities.Core.AppInterfaces
         Result<List<SecurityPrice>> GetSecurityPrices(DateTime? date);
 
 
-        //List<SecurityPrice> GetSecurityPrices(TradeDate date, IEnumerable<String> tickers);
+        Result<List<SecurityPrice>> GetSecurityPrices(DateTime? date, IEnumerable<String> tickers);
 
         Result<SecurityPrice> GetSecurityPrice(String ticker, DateTime? date);
 
