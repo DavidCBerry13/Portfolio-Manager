@@ -8,6 +8,7 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.Text;
+using DavidBerry.Framework.Util;
 
 namespace Securities.Core.AppServices
 {
@@ -59,7 +60,10 @@ namespace Securities.Core.AppServices
         internal Result<List<SecurityPrice>> GetSecurityPrices(TradeDate tradeDate)
         {
             var securityPrices = _securityPriceRepository.GetSecurityPrices(tradeDate);
-            return Result<List<SecurityPrice>>.Success(securityPrices);
+
+            return (!securityPrices.IsNullOrEmpty()) ?
+                Result<List<SecurityPrice>>.Success(securityPrices)
+                : Result.Failure<List<SecurityPrice>>(new ApplicationError($"No security price data exists for the trade date {tradeDate.AsString()}.  Check to see if the data has been loaded or is missing"));
         }
 
 
