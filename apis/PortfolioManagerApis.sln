@@ -25,6 +25,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BrokerageAccounts.Data.Dapp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BrokerageAccountApi", "BrokerageAccountApi\BrokerageAccountApi\BrokerageAccountApi.csproj", "{AAC8F4F8-ADD0-473C-BF79-B48DBD39B606}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Securities.Core.Tests", "SecuritiesApi\Securities.Core.Tests\Securities.Core.Tests.csproj", "{A82730AC-9300-4BD9-ACD2-20B4156AED0A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -63,6 +65,10 @@ Global
 		{AAC8F4F8-ADD0-473C-BF79-B48DBD39B606}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AAC8F4F8-ADD0-473C-BF79-B48DBD39B606}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AAC8F4F8-ADD0-473C-BF79-B48DBD39B606}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A82730AC-9300-4BD9-ACD2-20B4156AED0A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A82730AC-9300-4BD9-ACD2-20B4156AED0A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A82730AC-9300-4BD9-ACD2-20B4156AED0A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A82730AC-9300-4BD9-ACD2-20B4156AED0A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -76,6 +82,7 @@ Global
 		{86330343-DDE1-4F65-8943-4DA43FB61C07} = {7B01FBED-A7B7-42CC-9CED-1E20A09D57AC}
 		{B3F3EFD1-995A-4F5D-987C-AA77A8CBBEAF} = {7B01FBED-A7B7-42CC-9CED-1E20A09D57AC}
 		{AAC8F4F8-ADD0-473C-BF79-B48DBD39B606} = {7B01FBED-A7B7-42CC-9CED-1E20A09D57AC}
+		{A82730AC-9300-4BD9-ACD2-20B4156AED0A} = {75360E74-67FD-4105-8820-8281BE923C74}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4ED74D42-8E44-47C2-98C1-A691763484F4}

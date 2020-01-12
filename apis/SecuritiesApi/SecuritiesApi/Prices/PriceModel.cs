@@ -34,8 +34,7 @@ namespace SecuritiesApi.Prices
         public String TradeDate { get; set; }
 
         /// <summary>
-        /// The opening price of the security on this day.  This field is sometimes null due to missing
-        /// data from the market data provider
+        /// The opening price of the security on this day.
         /// </summary>
         public decimal? OpeningPrice { get; set; }
 

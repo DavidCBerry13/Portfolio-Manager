@@ -16,8 +16,10 @@ namespace Securities.Core.Errors
         public InvalidTradeDateError(DateTime date)
             : base($"The date {date:yyyy-MM-dd} is not a valid trade date")
         {
-
+            Date = date;
         }
 
+
+        public DateTime Date { get; private set; }
     }
 }

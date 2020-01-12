@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using DavidBerry.Framework.Functional;
+using DavidBerry.Framework.Util;
 using Securities.Core.AppInterfaces;
 using Securities.Core.DataAccess;
 using Securities.Core.Domain;
@@ -24,7 +25,7 @@ namespace Securities.Core.AppServices
             var tradeDate = _tradeDateRepository.GetLatestTradeDate();
             return tradeDate.Eval<Result<TradeDate>>(
                 d => Result.Success<TradeDate>(d),
-                () => Result.Failure<TradeDate>("No trade dates are loaded into the system"));
+                () => Result.Failure<TradeDate>(new ApplicationError("Unable to get latest trade date.  Validate trade dates are loaded into the system")));
         }
 
         public Result<TradeDate> GetTradeDate(DateTime date)
@@ -38,7 +39,10 @@ namespace Securities.Core.AppServices
         public Result<List<TradeDate>> GetTradeDates()
         {
             var tradeDates = _tradeDateRepository.GetTradeDates();
-            return Result.Success<List<TradeDate>>(tradeDates);
+
+            return (!tradeDates.IsNullOrEmpty()) ?
+                Result.Success<List<TradeDate>>(tradeDates)
+                : Result.Failure<List<TradeDate>>(new ApplicationError("Unable to get trade dates.  Validate trade dates are loaded into the system"));
         }
     }
 }
