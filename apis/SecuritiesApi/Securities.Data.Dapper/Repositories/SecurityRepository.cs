@@ -20,15 +20,23 @@ namespace Securities.Data.Dapper.Repositories
 
 
         public static readonly String BASE_SQL =
-            @"SELECT DISTINCT
-                  s.Ticker,
+            @"WITH SecurityTradeDates AS
+              (
+                  SELECT
+                      Ticker,
+	                  FirstTradeDate = MIN(TradeDate),
+	                  LastTradeDate = MAX(TradeDate)
+                  FROM SecurityPrices
+                  GROUP BY Ticker
+              )
+              SELECT s.Ticker,
                   s.SecurityName AS Name,
-		          s.SecurityTypeCode AS SecurityType,
-		          FirstTradeDate = MIN(p.TradeDate) OVER (PARTITION BY s.Ticker),
-		          LastTradeDate = MAX(p.TradeDate) OVER (PARTITION BY s.Ticker)
-              FROM SecurityPrices p
-	          INNER JOIN Securities s
-	              ON s.Ticker = p.Ticker";
+                  s.SecurityTypeCode AS SecurityType,
+	              sd.FirstTradeDate,
+	              sd.LastTradeDate
+              FROM Securities s
+	          INNER JOIN SecurityTradeDates sd
+	              ON s.Ticker = sd.Ticker";
 
         private readonly String _connectionString;
 
