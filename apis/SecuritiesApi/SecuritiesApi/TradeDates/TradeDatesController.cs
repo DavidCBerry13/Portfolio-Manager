@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Securities.Core.AppInterfaces;
+using Securities.Core.Domain;
 
 namespace SecuritiesApi.TradeDates
 {
@@ -39,14 +40,7 @@ namespace SecuritiesApi.TradeDates
 
             if (result.IsSuccess)
             {
-                var models = result.Value.Select(d => new TradeDateModel()
-                {
-                    TradeDate = d.Date.ToString("yyyy-MM-dd"),
-                    IsMonthEnd = d.IsMonthEnd,
-                    IsQuarterEnd = d.IsQuarterEnd,
-                    IsYearEnd = d.IsYearEnd
-                });
-
+                var models = _mapper.Map<List<TradeDate>, List<TradeDateModel>>(result.Value);
                 return Ok(models);
             }
             else
@@ -63,14 +57,7 @@ namespace SecuritiesApi.TradeDates
             var result = _tradeDateService.GetTradeDate(date.Date);
             if ( result.IsSuccess)
             {
-                var model = new TradeDateModel()
-                {
-                    TradeDate = result.Value.Date.ToString("yyyy-MM-dd"),
-                    IsMonthEnd = result.Value.IsMonthEnd,
-                    IsQuarterEnd = result.Value.IsQuarterEnd,
-                    IsYearEnd = result.Value.IsYearEnd
-                };
-
+                var model = _mapper.Map<TradeDate, TradeDateModel>(result.Value);
                 return Ok(model);
             }
             else
@@ -88,14 +75,7 @@ namespace SecuritiesApi.TradeDates
 
             if (result.IsSuccess)
             {
-                var model = new TradeDateModel()
-                {
-                    TradeDate = result.Value.Date.ToString("yyyy-MM-dd"),
-                    IsMonthEnd = result.Value.IsMonthEnd,
-                    IsQuarterEnd = result.Value.IsQuarterEnd,
-                    IsYearEnd = result.Value.IsYearEnd
-                };
-
+                var model = _mapper.Map<TradeDate, TradeDateModel>(result.Value);
                 return Ok(model);
             }
             else

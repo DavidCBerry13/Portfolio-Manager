@@ -1,4 +1,6 @@
-﻿using System;
+﻿using AutoMapper;
+using Securities.Core.Domain;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -32,4 +34,21 @@ namespace SecuritiesApi.TradeDates
         public bool IsYearEnd { get; set; }
 
     }
+
+
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+
+    public class TradeDateModelAutomapperProfile : Profile
+    {
+        public TradeDateModelAutomapperProfile()
+        {
+            CreateMap<TradeDate, TradeDateModel>()
+                .ForMember(
+                    dest => dest.TradeDate,
+                    opt => opt.MapFrom(src => src.AsString())
+                );
+        }
+    }
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
+
 }
