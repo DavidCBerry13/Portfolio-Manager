@@ -40,7 +40,7 @@ namespace Securities.Core.AppServices
                 var tradeDate = _tradeDateRepository.GetLatestTradeDate();
                 return tradeDate.Eval<Result<List<SecurityPrice>>>(
                     d => this.GetSecurityPrices(d),
-                    () => Result.Failure<List<SecurityPrice>>(new ApplicationError("No trade dates are loaded into the system")));
+                    () => Result.Failure<List<SecurityPrice>>(new MissingDataError("No trade dates are loaded into the system")));
             }
         }
 
@@ -63,7 +63,7 @@ namespace Securities.Core.AppServices
 
             return (!securityPrices.IsNullOrEmpty()) ?
                 Result<List<SecurityPrice>>.Success(securityPrices)
-                : Result.Failure<List<SecurityPrice>>(new ApplicationError($"No security price data exists for the trade date {tradeDate.AsString()}.  Check to see if the data has been loaded or is missing"));
+                : Result.Failure<List<SecurityPrice>>(new MissingDataError($"No security price data exists for the trade date {tradeDate.AsString()}.  Check to see if the data has been loaded or is missing"));
         }
 
 
@@ -82,7 +82,7 @@ namespace Securities.Core.AppServices
                 var tradeDate = _tradeDateRepository.GetLatestTradeDate();
                 return tradeDate.Eval<Result<SecurityPrice>>(
                     d => GetSecurityPrice(ticker, d),
-                    () => Result.Failure<SecurityPrice>(new ApplicationError("No trade dates are in the system")));
+                    () => Result.Failure<SecurityPrice>(new MissingDataError("No trade dates are in the system")));
             }
 
         }
@@ -130,7 +130,7 @@ namespace Securities.Core.AppServices
                 var tradeDate = _tradeDateRepository.GetLatestTradeDate();
                 return tradeDate.Eval<Result<List<SecurityPrice>>>(
                     value => GetSecurityPrices(value, tickers),
-                    () => Result.Failure<List<SecurityPrice>>(new ApplicationError("No trade dates are in the system")));
+                    () => Result.Failure<List<SecurityPrice>>(new MissingDataError("No trade dates are in the system")));
             }
         }
 

@@ -64,7 +64,15 @@ namespace SecuritiesApi.Prices
             }
             else
             {
-                return NotFound(new ApiMessageModel() { Message = result.Error.Message });
+                switch (result.Error)
+                {
+                    case InvalidTradeDateError error:
+                        return BadRequest(new InvalidTradeDateMessageModel(error));
+                    case ApplicationMissingDataError error:
+                        return ControllerExtensions.InternalServerError(this, new ServerErrorMessageModel());
+                    default:
+                        return ControllerExtensions.InternalServerError(this, new ServerErrorMessageModel());
+                }
             }
         }
 
@@ -89,13 +97,14 @@ namespace SecuritiesApi.Prices
                 switch (result.Error)
                 {
                     case InvalidTradeDateError error:
-                        return BadRequest(new ApiMessageModel() { Message = error.Message });
+                        return BadRequest(new InvalidTradeDateMessageModel(error));
                     case TickerNotFoundError error:
                         return BadRequest(new TickerNotFoundMessageModel(error));
                     case InvalidDateForTickerError error:
                         return BadRequest(new InvalidDateForTickerMessageModel(error));
+                    default:
+                        return ControllerExtensions.InternalServerError(this, new ServerErrorMessageModel());
                 }
-                return ControllerExtensions.InternalServerError(this, new ApiMessageModel() { Message = result.Error.Message });
             }
         }
 
