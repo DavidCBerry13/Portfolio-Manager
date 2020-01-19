@@ -31,7 +31,7 @@ namespace SecuritiesApi.Securities
         public String FirstTradeDate { get; set; }
 
         /// <summary>
-        /// Gets the last date the secirity has data in the system for in YYYY-MM-DD format
+        /// Gets the last date the security has data in the system for in YYYY-MM-DD format
         /// </summary>
         public String LastTradeDate { get; set; }
 
