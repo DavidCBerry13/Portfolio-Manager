@@ -55,7 +55,13 @@ namespace SecuritiesApi.Securities
             }
             else
             {
-                return HandleErrorResult(result);
+                switch (result.Error)
+                {
+                    case ApplicationMissingDataError error:
+                        return ControllerExtensions.InternalServerError(this, new ServerErrorMessageModel());
+                    default:
+                        return ControllerExtensions.InternalServerError(this, new ServerErrorMessageModel());
+                }
             }
         }
 
@@ -82,7 +88,17 @@ namespace SecuritiesApi.Securities
             }
             else
             {
-                return HandleErrorResult(result);
+                switch (result.Error)
+                {
+                    case InvalidTickerFormatError error:
+                        return BadRequest(new InvalidTickerFormatMessageModel(error));
+                    case TickerNotFoundError error:
+                        return BadRequest(new TickerNotFoundMessageModel(error));
+                    case ApplicationError error:
+                        return ControllerExtensions.InternalServerError(this, new ServerErrorMessageModel());
+                    default:
+                        return ControllerExtensions.InternalServerError(this, new ServerErrorMessageModel());
+                }
             }
         }
 
@@ -108,20 +124,6 @@ namespace SecuritiesApi.Securities
         }
 
 
-        protected override ActionResult MapErrorResult(Result result)
-        {
-            switch (result.Error)
-            {
-                case InvalidDataError error:
-                    return BadRequest(new ApiErrorMessageModel() { Message = result.Error.Message, ErrorCode = "INVALID_TICKER" });
-                case TickerNotFoundError error:
-                    return BadRequest(new TickerNotFoundMessageModel(error));
-                case ApplicationError error:
-                    return ControllerExtensions.InternalServerError(this, new ServerErrorMessageModel() );
-                default:
-                    return ControllerExtensions.InternalServerError(this, new ServerErrorMessageModel() );
-            }
-        }
-
     }
+
 }

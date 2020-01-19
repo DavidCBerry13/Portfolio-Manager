@@ -23,7 +23,11 @@ namespace Securities.Core.AppServices
 
         private readonly ISecurityRepository securityRepository;
 
-
+        /// <summary>
+        ///
+        /// </summary>
+        /// <returns></returns>
+        /// <error type="ApplicationMissingDataError">Returned with a failure when there is no security data that could be loaded from the database</error>
         public Result<List<Security>> GetSecurities()
         {
             var securities = securityRepository.GetSecurities();
@@ -41,7 +45,7 @@ namespace Securities.Core.AppServices
         public Result<Security> GetSecurity(string ticker)
         {
             if (!Regex.IsMatch(ticker, "^[A-Z]{1,5}$", RegexOptions.IgnoreCase))
-                return Result.Failure<Security>(new InvalidDataError("The string '{ticker}' is not a valid ticker string"));
+                return Result.Failure<Security>(new InvalidTickerFormatError(ticker));
 
             var security = securityRepository.GetSecurity(ticker);
 
