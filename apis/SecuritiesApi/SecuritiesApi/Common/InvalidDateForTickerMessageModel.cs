@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SecuritiesApi.Common
 {
-    public class InvalidDateForTickerMessageModel : ApiMessageModel
+    public class InvalidDateForTickerMessageModel : ApiErrorMessageModel
     {
 
         public InvalidDateForTickerMessageModel(InvalidDateForTickerError error)
@@ -24,8 +24,6 @@ namespace SecuritiesApi.Common
             ).ToList();
         }
 
-
-        public string ErrorCode { get; set; }
 
         public String TradeDate { get; set; }
 

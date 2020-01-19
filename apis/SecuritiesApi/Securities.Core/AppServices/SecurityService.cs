@@ -29,7 +29,7 @@ namespace Securities.Core.AppServices
             var securities = securityRepository.GetSecurities();
             return (!securities.IsNullOrEmpty()) ?
                 Result.Success<List<Security>>(securities)
-                : Result.Failure<List<Security>>(new ApplicationError("No securities found.  Make sure security and price data is loaded in the database"));
+                : Result.Failure<List<Security>>(new ApplicationMissingDataError($"SecurityService.GetSecurities() did not find any securities when calling securityRepository.GetSecurities().  Security Repository is {securityRepository.GetType().FullName}.  Make sure security and price data is loaded in the database"));
         }
 
 

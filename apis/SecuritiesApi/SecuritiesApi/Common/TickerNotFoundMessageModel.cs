@@ -7,18 +7,16 @@ using System.Threading.Tasks;
 
 namespace SecuritiesApi.Common
 {
-    public class TickerNotFoundMessageModel : ApiMessageModel
+    public class TickerNotFoundMessageModel : ApiErrorMessageModel
     {
 
         public TickerNotFoundMessageModel(TickerNotFoundError error)
         {
             this.Message = error.Message;
-            this.ErrorCode = "INVALID_TICKER";
+            this.ErrorCode = "TICKER_NOT_FOUND";
             this.Tickers = error.InvalidTickers.ToList();
         }
 
-
-        public string ErrorCode { get; set; }
 
 
         public List<string> Tickers { get; set; }
