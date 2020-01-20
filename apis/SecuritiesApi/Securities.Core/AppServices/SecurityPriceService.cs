@@ -9,6 +9,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Text;
 using DavidBerry.Framework.Util;
+using System.Text.RegularExpressions;
 
 namespace Securities.Core.AppServices
 {
@@ -164,6 +165,24 @@ namespace Securities.Core.AppServices
             return Result<List<SecurityPrice>>.Success(securityPrices);
         }
 
+        public Result<List<SecurityPrice>> GetSecurityPrices(string ticker, DateTime? startDate, DateTime? endDate)
+        {
+            // Make sure the ticker is in a valid format
+            if (!Regex.IsMatch(ticker, "^[A-Z]{1,5}$", RegexOptions.IgnoreCase))
+                return Result.Failure<List<SecurityPrice>>(new InvalidTickerFormatError(ticker));
 
+            // Make sure the ticker exists (corresponds to a security)
+            var security = _securityRepository.GetSecurity(ticker);
+            if (!security.HasValue)
+                return Result.Failure<List<SecurityPrice>>(new TickerNotFoundError(ticker));
+
+            var latestTradeDate = _tradeDateRepository.GetLatestTradeDate();
+
+            endDate = endDate ?? latestTradeDate.Value.Date;  // If no end date, then go through latest trade date
+            startDate = startDate ?? endDate.Value.AddDays(-90);  // If no start date, then go 90 days back from end date
+
+            var securityPrices = _securityPriceRepository.GetSecurityPrices(ticker, startDate.Value, endDate.Value);
+            return Result<List<SecurityPrice>>.Success(securityPrices.OrderBy(s => s.TradeDate).ToList());
+        }
     }
 }

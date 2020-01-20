@@ -17,7 +17,7 @@ namespace Securities.Core.DataAccess
         Maybe<SecurityPrice> GetSecurityPrice(String ticker, TradeDate tradeDate);
 
 
-        //List<SecurityPrice> GetSecurityPrices(String ticker, TradeDate startDate, TradeDate endDate);
+        List<SecurityPrice> GetSecurityPrices(String ticker, DateTime startDate, DateTime endDate);
 
 
     }

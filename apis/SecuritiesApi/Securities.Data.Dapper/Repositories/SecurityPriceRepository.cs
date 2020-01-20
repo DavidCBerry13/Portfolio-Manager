@@ -81,5 +81,21 @@ namespace Securities.Data.Dapper.Repositories
                     .ToList();
             }
         }
+
+        public List<SecurityPrice> GetSecurityPrices(string ticker, DateTime startDate, DateTime endDate)
+        {
+            string sql = $@"{BASE_SQL}
+               WHERE s.Ticker = @Ticker
+                   AND p.TradeDate >= @StartDate
+                   AND p.TradeDate <= @EndDate";
+
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
+                return connection.Query<SecurityPrice>(sql,
+                    new { Ticker = ticker, StartDate = startDate.Date, EndDate = endDate.Date })
+                    .ToList();
+            }
+        }
     }
 }

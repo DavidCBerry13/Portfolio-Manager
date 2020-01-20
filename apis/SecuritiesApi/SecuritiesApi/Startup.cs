@@ -23,6 +23,7 @@ using DavidBerry.Framework.ApiUtil.Filters;
 using Microsoft.OpenApi.Models;
 using Microsoft.Extensions.Hosting;
 using DavidBerry.Framework.ApiUtil;
+using FluentValidation.AspNetCore;
 
 namespace SecuritiesApi
 {
@@ -40,8 +41,8 @@ namespace SecuritiesApi
         {
             //options.Filters.Add(new ExceptionHandlerFilterAttribute(LoggerFactory));
 
-            services.AddControllers();
-                //.AddFluentValidation(fv => fv.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly()));
+            services.AddControllers()
+                .AddFluentValidation(fv => fv.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly()));
 
             services.AddCors();
             services.AddAutoMapper(Assembly.GetExecutingAssembly(), Assembly.GetAssembly(typeof(UrlResolver)));
