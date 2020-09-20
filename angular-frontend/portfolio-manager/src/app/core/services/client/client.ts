@@ -16,7 +16,7 @@ export class Client {
 export class ClientAccount {
     accountNumber: string;
     accountStatus: string;
-    openData: string;
+    openDate: string;
     closeDate: string;
     accountBalance: number;
 }
